@@ -12,10 +12,10 @@ enum color {
     WHITE
 };
 
-class SelectPlayerMenu {
+class SelectPlayerForm {
     private:
-        const int MENU_BOX_HEIGHT = 12;
-        const int MENU_BOX_WIDTH = 40;
+        const int FORM_BOX_HEIGHT = 12;
+        const int FORM_BOX_WIDTH = 40;
         const int NUMBERS_CENTER_X = 3;
         const int SUBMIT_CENTER_X = 3;
         const int WIN_BASE_Y = 2;
@@ -33,9 +33,9 @@ class SelectPlayerMenu {
         Position play4;
 
     public:
-        SelectPlayerMenu();
-        ~SelectPlayerMenu();
-        void showMenu();
+        SelectPlayerForm();
+        ~SelectPlayerForm();
+        void showForm();
 
     private:
         void showBox();

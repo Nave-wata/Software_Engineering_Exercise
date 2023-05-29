@@ -1,7 +1,7 @@
-#include "SelectPlayerMenu.hpp"
+#include "views/SelectPlayerForm.hpp"
 
 // コンストラクタ
-SelectPlayerMenu::SelectPlayerMenu() {
+SelectPlayerForm::SelectPlayerForm() {
     getmaxyx(stdscr, this->y, this->x);
     this->center_y = this->y / 2;
     this->center_x = this->x / 2;
@@ -10,10 +10,10 @@ SelectPlayerMenu::SelectPlayerMenu() {
 }
 
 // デストラクタ
-SelectPlayerMenu::~SelectPlayerMenu() {}
+SelectPlayerForm::~SelectPlayerForm() {}
 
 // プレイ人数選択メニューを表示する
-void SelectPlayerMenu::showMenu() {
+void SelectPlayerForm::showForm() {
     this->showBox();
     this->showContents();
     wrefresh(this->win);
@@ -21,11 +21,11 @@ void SelectPlayerMenu::showMenu() {
 }
 
 // メニューボックスを表示する
-void SelectPlayerMenu::showBox() {
+void SelectPlayerForm::showBox() {
     int y, x;
     this->win = newwin(
-        this->MENU_BOX_HEIGHT, this->MENU_BOX_WIDTH,
-        this->center_y - this->MENU_BOX_HEIGHT / 2, this->center_x - this->MENU_BOX_WIDTH / 2
+        this->FORM_BOX_HEIGHT, this->FORM_BOX_WIDTH,
+        this->center_y - this->FORM_BOX_HEIGHT / 2, this->center_x - this->FORM_BOX_WIDTH / 2
     );
 
     getmaxyx(this->win, y, x);
@@ -36,7 +36,7 @@ void SelectPlayerMenu::showBox() {
 }
 
 // 選択可能人数を表示する
-void SelectPlayerMenu::showContents() {
+void SelectPlayerForm::showContents() {
     const int space = 3;
     this->title = {this->WIN_BASE_Y, 2};
     this->play1 = {this->WIN_BASE_Y + space, this->box_center_x - this->NUMBERS_CENTER_X + 1};
@@ -52,7 +52,7 @@ void SelectPlayerMenu::showContents() {
 }
 
 // キー入力待ち
-void SelectPlayerMenu::keyWait() {
+void SelectPlayerForm::keyWait() {
     int c = '\0';
 
     Position cursor = {-1, -1};

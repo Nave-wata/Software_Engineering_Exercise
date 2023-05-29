@@ -3,7 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "SelectPlayerMenu.hpp"
+#include "views/SelectPlayerForm.hpp"
 
 int main(int argc, char **argv) {
     initscr();
@@ -15,8 +15,8 @@ int main(int argc, char **argv) {
     timeout(-1);
     refresh();
 
-    SelectPlayerMenu selectPlayerMenu = SelectPlayerMenu();
-    selectPlayerMenu.showMenu();
+    SelectPlayerForm selectPlayerForm = SelectPlayerForm();
+    selectPlayerForm.showForm();
 
     endwin();
     return 0;
