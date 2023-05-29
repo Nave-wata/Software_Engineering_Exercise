@@ -1,36 +1,16 @@
 #include "views/SelectPlayerForm.hpp"
 
-// コンストラクタ
-SelectPlayerForm::SelectPlayerForm() {
-    getmaxyx(stdscr, this->y, this->x);
-    this->center_y = this->y / 2;
-    this->center_x = this->x / 2;
-}
-
-// デストラクタ
-SelectPlayerForm::~SelectPlayerForm() {}
-
 // プレイ人数選択メニューを表示する
 void SelectPlayerForm::showForm() {
-    this->showBox();
+    this->showBox(
+        this->FORM_BOX_HEIGHT,
+        this->FORM_BOX_WIDTH,
+        this->center_y - this->FORM_BOX_HEIGHT / 2,
+        this->center_x - this->FORM_BOX_WIDTH / 2
+    );
     this->showContents();
     wrefresh(this->win);
     this->keyWait();
-}
-
-// メニューボックスを表示する
-void SelectPlayerForm::showBox() {
-    int y, x;
-    this->win = newwin(
-        this->FORM_BOX_HEIGHT, this->FORM_BOX_WIDTH,
-        this->center_y - this->FORM_BOX_HEIGHT / 2, this->center_x - this->FORM_BOX_WIDTH / 2
-    );
-
-    getmaxyx(this->win, y, x);
-    this->box_center_y = y / 2;
-    this->box_center_x = x / 2;
-
-    box(this->win, 0, 0);
 }
 
 // 選択可能人数を表示する
