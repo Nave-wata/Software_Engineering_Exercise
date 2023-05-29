@@ -65,9 +65,21 @@ void SelectPlayerForm::keyWait() {
                     mvwaddch(this->win, cursor.y, cursor.x, '*');
                 }
                 break;
-            case KEY_ENTER:
+            case '\n':
                 if (cursor.y != -1) {
-                    // プレイ人数決定
+                    if (cursor.y == this->play1.y) {
+                        // 1人プレイ
+                        return;
+                    } else if (cursor.y == this->play2.y) {
+                        // 2人プレイ
+                        return;
+                    } else if (cursor.y == this->play3.y) {
+                        // 3人プレイ
+                        return;
+                    } else if (cursor.y == this->play4.y) {
+                        // 4人プレイ
+                        return;
+                    }
                 }
                 break;
         };
