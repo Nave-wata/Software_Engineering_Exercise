@@ -5,8 +5,6 @@ SelectPlayerForm::SelectPlayerForm() {
     getmaxyx(stdscr, this->y, this->x);
     this->center_y = this->y / 2;
     this->center_x = this->x / 2;
-    init_pair(BLACK, COLOR_BLACK, COLOR_BLACK);
-    init_pair(WHITE, COLOR_WHITE, COLOR_WHITE);
 }
 
 // デストラクタ

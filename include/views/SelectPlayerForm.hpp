@@ -7,11 +7,6 @@ typedef struct {
     int x;
 } Position;
 
-enum color {
-    BLACK,
-    WHITE
-};
-
 class SelectPlayerForm {
     private:
         const int FORM_BOX_HEIGHT = 12;
