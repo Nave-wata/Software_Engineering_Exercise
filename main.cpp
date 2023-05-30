@@ -5,8 +5,9 @@
 
 #include "views/SelectPlayerForm.hpp"
 #include "views/CreateOrJoinRoomForm.hpp"
+#include "views/CreateRoomForm.hpp" 
 
-int main(int argc, char **argv) {
+int main() {
     initscr();
     cbreak();
     curs_set(0);
@@ -16,11 +17,17 @@ int main(int argc, char **argv) {
     timeout(-1);
     refresh();
 
-    // SelectPlayerForm selectPlayerForm = SelectPlayerForm();
-    // selectPlayerForm.showForm();
+    // SelectPlayerForm *selectPlayerForm = new SelectPlayerForm();
+    // selectPlayerForm->showForm();
+    // delete selectPlayerForm;
 
-    CreateOrJoinRoomForm createOrJoinRoomForm = CreateOrJoinRoomForm();
-    createOrJoinRoomForm.showForm();
+    // CreateOrJoinRoomForm *createOrJoinRoomForm = new CreateOrJoinRoomForm();
+    // createOrJoinRoomForm->showForm();
+    // delete createOrJoinRoomForm;
+
+    CreateRoomForm *createRoomForm = new CreateRoomForm();
+    createRoomForm->showForm();
+    delete createRoomForm;
 
     endwin();
     return 0;
