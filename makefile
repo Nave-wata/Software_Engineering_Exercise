@@ -1,25 +1,27 @@
-CC = g++
-CFLAG = -Wall
+CXX = g++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -g
 ADDLIB = -lncurses
+INCLUDES = -I include
+TARGET = main
 
-main: main.o SelectPlayerForm.o CreateOrJoinRoomForm.o BaseBox.o
-	$(CC) -o main \
-		obj/main.o \
-		obj/SelectPlayerForm.o \
-		obj/CreateOrJoinRoomForm.o \
-		obj/BaseBox.o $(CFLAG) $(ADDLIB)
+SRCDIR = src
+INCDIR = include
+OBJDIR = obj
 
-main.o: main.cpp include/views/SelectPlayerForm.hpp include/views/CreateOrJoinRoomForm.hpp
-	$(CC) -c -I ./include main.cpp -o obj/main.o $(CFLAG) $(ADDLIB)
+SOURCES = $(wildcard $(SRCDIR)/*/*.cpp) $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS = $(addprefix $(OBJDIR)/,$(notdir $(SOURCES:.cpp=.o)))
 
-SelectPlayerForm.o: src/views/SelectPlayerForm.cpp include/views/SelectPlayerForm.hpp
-	$(CC) -c -I ./include src/views/SelectPlayerForm.cpp -o obj/SelectPlayerForm.o $(CFLAG) $(ADDLIB)
 
-CreateOrJoinRoomForm.o: src/views/CreateOrJoinRoomForm.cpp include/views/CreateOrJoinRoomForm.hpp
-	$(CC) -c -I ./include src/views/CreateOrJoinRoomForm.cpp -o obj/CreateOrJoinRoomForm.o $(CFLAG) $(ADDLIB)
+$(TARGET): $(OBJECTS) $(OBJDIR)/$(TARGET).o
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $@ $(ADDLIB)
 
-BaseBox.o: src/views/BaseBox.cpp include/views/BaseBox.hpp
-	$(CC) -c -I ./include src/views/BaseBox.cpp -o obj/BaseBox.o $(CFLAG) $(ADDLIB)
+$(OBJDIR)/$(TARGET).o: $(TARGET).cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $(TARGET).cpp -o $(OBJDIR)/$(TARGET).o
+
+$(OBJDIR)/%.o: $(SRCDIR)/*/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f ./obj/*
+	rm -f $(TARGET) $(OBJECTS) $(OBJDIR)/$(TARGET).o
+
+.PHONY: clean
