@@ -8,7 +8,9 @@ BaseBox::BaseBox() {
 }
 
 // デストラクタ
-BaseBox::~BaseBox() {}
+BaseBox::~BaseBox() {
+    delwin(this->win);
+}
 
 // メニューボックスを表示する
 void BaseBox::showBox(const int rows, const int cols, const int y, const int x) {

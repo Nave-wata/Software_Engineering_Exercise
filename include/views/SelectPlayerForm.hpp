@@ -16,6 +16,8 @@ class SelectPlayerForm: public BaseBox {
         Position play4;
 
     public:
+        SelectPlayerForm();
+        ~SelectPlayerForm();
         void showForm();
 
     protected:

@@ -14,6 +14,8 @@ class CreateOrJoinRoomForm: public BaseBox {
         Position join;
 
     public:
+        CreateOrJoinRoomForm();
+        ~CreateOrJoinRoomForm();
         void showForm();
 
     protected:

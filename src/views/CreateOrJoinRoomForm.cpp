@@ -1,6 +1,12 @@
 #include "views/CreateOrJoinRoomForm.hpp"
 #include <string>
 
+// コンストラクタ
+CreateOrJoinRoomForm::CreateOrJoinRoomForm() {}
+
+// デストラクタ
+CreateOrJoinRoomForm::~CreateOrJoinRoomForm() {}
+
 // 部屋作成・参加メニューを表示する
 void CreateOrJoinRoomForm::showForm() {
     this->showBox(

@@ -1,5 +1,11 @@
 #include "views/SelectPlayerForm.hpp"
 
+// コンストラクタ
+SelectPlayerForm::SelectPlayerForm() {}
+
+// デストラクタ
+SelectPlayerForm::~SelectPlayerForm() {}
+
 // プレイ人数選択メニューを表示する
 void SelectPlayerForm::showForm() {
     this->showBox(
