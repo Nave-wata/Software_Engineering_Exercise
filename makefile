@@ -15,10 +15,10 @@ OBJECTS = $(addprefix $(OBJDIR)/,$(notdir $(SOURCES:.cpp=.o)))
 $(TARGET): $(OBJECTS) $(OBJDIR)/$(TARGET).o
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $@ $(ADDLIB)
 
-$(OBJDIR)/$(TARGET).o: $(TARGET).cpp
+$(OBJDIR)/$(TARGET).o: $(TARGET).cpp $(INCDIR)/*/*.hpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $(TARGET).cpp -o $(OBJDIR)/$(TARGET).o
 
-$(OBJDIR)/%.o: $(SRCDIR)/*/%.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/*/%.cpp $(INCDIR)/*/%.hpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
