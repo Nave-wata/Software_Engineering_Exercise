@@ -6,6 +6,7 @@
 #include "views/SelectPlayerForm.hpp"
 #include "views/CreateOrJoinRoomForm.hpp"
 #include "views/CreateRoomForm.hpp" 
+#include "views/JoinRoomForm.hpp"
 
 int main() {
     initscr();
@@ -25,9 +26,13 @@ int main() {
     // createOrJoinRoomForm->showForm();
     // delete createOrJoinRoomForm;
 
-    CreateRoomForm *createRoomForm = new CreateRoomForm();
-    createRoomForm->showForm();
-    delete createRoomForm;
+    // CreateRoomForm *createRoomForm = new CreateRoomForm();
+    // createRoomForm->showForm();
+    // delete createRoomForm;
+
+    JoinRoomForm *joinRoomForm = new JoinRoomForm();
+    joinRoomForm->showForm();
+    delete joinRoomForm;
 
     endwin();
     return 0;
