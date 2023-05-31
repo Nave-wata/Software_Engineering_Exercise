@@ -27,8 +27,7 @@ void CreateOrJoinRoomForm::showContents() {
     this->create = {this->WIN_BASE_Y + space, this->box_center_x + this->CREATE_CENTER_X};
     this->join = {this->WIN_BASE_Y + space, this->box_center_x + this->JOIN_CENTER_X};
 
-    mvwprintw(this->win, this->title.y, this->title.x, "Choose whether you want to create ");
-    mvwprintw(this->win, this->title.y + 1, this->title.x, "or join a room");
+    mvwprintw(this->win, this->title.y, this->title.x, "Choose to create or enter a room.");
 
     mvwprintw(this->win, this->create.y, this->create.x, "[ ] Create");
     mvwprintw(this->win, this->join.y, this->join.x, "[ ] Join");
