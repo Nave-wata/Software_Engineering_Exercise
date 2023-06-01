@@ -7,6 +7,7 @@
 #include "views/CreateOrJoinRoomForm.hpp"
 #include "views/CreateRoomForm.hpp" 
 #include "views/JoinRoomForm.hpp"
+#include "views/UserNameForm.hpp"
 
 int main() {
     initscr();
@@ -26,13 +27,17 @@ int main() {
     // createOrJoinRoomForm->showForm();
     // delete createOrJoinRoomForm;
 
-    // CreateRoomForm *createRoomForm = new CreateRoomForm();
-    // createRoomForm->showForm();
-    // delete createRoomForm;
+    CreateRoomForm *createRoomForm = new CreateRoomForm("Please enter the room name.", "Room name: ");
+    createRoomForm->showForm();
+    delete createRoomForm;
 
-    JoinRoomForm *joinRoomForm = new JoinRoomForm();
-    joinRoomForm->showForm();
-    delete joinRoomForm;
+    // JoinRoomForm *joinRoomForm = new JoinRoomForm();
+    // joinRoomForm->showForm();
+    // delete joinRoomForm;
+
+    UserNameForm *userNameForm = new UserNameForm("Please enter the user name.", "User name: ");
+    userNameForm->showForm();
+    delete userNameForm;
 
     endwin();
     return 0;
