@@ -1,12 +1,30 @@
+/**
+ * @file SelectPlayerForm.cpp
+ * 
+ * @brief SelectPlayerFormクラスのソースファイル
+ * 
+ * @author Nave-wata
+ * 
+ * @date 2023-06-02
+ */
+
 #include "views/SelectPlayerForm.hpp"
 
-// コンストラクタ
+/**
+ * @brief コンストラクタ
+ */
 SelectPlayerForm::SelectPlayerForm() {}
 
-// デストラクタ
+/**
+ * @brief デストラクタ
+ */
 SelectPlayerForm::~SelectPlayerForm() {}
 
-// プレイ人数選択メニューを表示する
+/**
+ * @brief プレイ人数選択フォームを表示する
+ * 
+ * @return void
+ */
 void SelectPlayerForm::showForm() {
     this->showBox(
         this->FORM_BOX_HEIGHT,
@@ -19,7 +37,11 @@ void SelectPlayerForm::showForm() {
     this->keyWait();
 }
 
-// 選択可能人数を表示する
+/**
+ * @brief フォームのコンテンツを表示する
+ * 
+ * @return void
+ */
 void SelectPlayerForm::showContents() {
     const int space = 3;
     this->title = {this->WIN_BASE_Y, 2};
@@ -35,7 +57,11 @@ void SelectPlayerForm::showContents() {
     mvwprintw(this->win, this->play4.y, this->play4.x, "[ ] 4");
 }
 
-// キー入力待ち
+/**
+ * @brief プレイヤーからのキー入力を待ち受ける
+ * 
+ * @return void
+ */
 void SelectPlayerForm::keyWait() {
     int c = '\0';
 

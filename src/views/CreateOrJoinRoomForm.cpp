@@ -1,13 +1,31 @@
+/**
+ * @file CreateOrJoinRoomForm.cpp
+ * 
+ * @brief 部屋作成・参加選択フォームのソースファイル
+ * 
+ * @author Nave-wata
+ * 
+ * @date 2023-06-02
+ */
+
 #include "views/CreateOrJoinRoomForm.hpp"
 #include <string>
 
-// コンストラクタ
+/**
+ * @brief コンストラクタ
+ */
 CreateOrJoinRoomForm::CreateOrJoinRoomForm() {}
 
-// デストラクタ
+/**
+ * @brief デストラクタ
+ */
 CreateOrJoinRoomForm::~CreateOrJoinRoomForm() {}
 
-// 部屋作成・参加メニューを表示する
+/**
+ * @brief 部屋作成・参加選択フォームを表示する
+ * 
+ * @return void
+ */
 void CreateOrJoinRoomForm::showForm() {
     this->showBox(
         this->FORM_BOX_HEIGHT,
@@ -20,7 +38,11 @@ void CreateOrJoinRoomForm::showForm() {
     this->keyWait();
 }
 
-// 選択可能なメニューを表示する
+/**
+ * @brief 選択可能な項目を表示する
+ * 
+ * @return void
+*/
 void CreateOrJoinRoomForm::showContents() {
     const int space = 5;
     this->title = {this->WIN_BASE_Y, 2};
@@ -33,7 +55,27 @@ void CreateOrJoinRoomForm::showContents() {
     mvwprintw(this->win, this->join.y, this->join.x, "[ ] Join");
 }
 
-// キー入力待ち
+/**
+ * キー入力処理
+ * 
+ *  - q: 終了
+ *  - 右キー: 選択項目を右に移動
+ *  - 左キー: 選択項目を左に移動
+ *  - Enter: 選択項目を決定
+ * 
+ * @return void
+*/
+
+/**
+ * @brief キーの入力処理
+ * 
+ *  - q: 終了
+ *  - 右キー: 選択項目を右に移動
+ *  - 左キー: 選択項目を左に移動
+ *  - Enter: 選択項目を決定
+ * 
+ * @return void
+ */
 void CreateOrJoinRoomForm::keyWait() {
     int c = '\0';
 

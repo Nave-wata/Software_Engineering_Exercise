@@ -1,6 +1,18 @@
+/**
+ * @file JoinRoomForm.cpp
+ * 
+ * @brief JoinRoomFormクラスのソースファイル
+ * 
+ * @author Nave-wata
+ * 
+ * @date 2023-06-02
+ */
+
 #include "views/JoinRoomForm.hpp"
 
-// コンストラクタ
+/**
+ * @brief コンストラクタ
+ */
 JoinRoomForm::JoinRoomForm() {
     // カラーセットの作成
     init_pair(BG_WHITE, COLOR_BLACK, COLOR_WHITE);
@@ -16,13 +28,19 @@ JoinRoomForm::JoinRoomForm() {
     }
 }
 
-// デストラクタ
+/**
+ * @brief デストラクタ
+ */
 JoinRoomForm::~JoinRoomForm() {
     delwin(this->box_win);
     delwin(this->field_win);
 }
 
-// 部屋入室フォームを表示する
+/**
+ * @brief 部屋入室フォームを表示する
+ * 
+ * @return void
+ */
 void JoinRoomForm::showForm() {
     int y, x;
 
@@ -54,7 +72,11 @@ void JoinRoomForm::showForm() {
     this->keyWait();
 }
 
-// 部屋入室フォームの内容を表示する
+/**
+ * @brief 入出可能な部屋の一覧を表示する
+ * 
+ * @return void
+ */
 void JoinRoomForm::showContents() {
     const int space = 3;
     this->title = {this->WIN_BASE_Y, this->WIN_BASE_X};
@@ -64,12 +86,16 @@ void JoinRoomForm::showContents() {
     mvwprintw(this->box_win, this->title.y, this->title.x, "Please select the room name.");
     mvwprintw(this->box_win, this->reload.y, this->reload.x, "reload");
 
-    for (int i = 0; i < this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X; i++) {
+    for (int i = 0; i < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME; i++) {
         mvwprintw(this->field_win, i + 1, 1, this->room_infos[i].room_name);
     }
 }
 
-// キー入力待ち
+/**
+ * @brief キー入力待ち
+ * 
+ * @return void
+ */
 void JoinRoomForm::keyWait() {
     const int init = -1;
     const int reload = -2; 
@@ -90,12 +116,12 @@ void JoinRoomForm::keyWait() {
             case KEY_DOWN:
                 if (cursor.y == reload) break;
                 if (cursor.y == init) cursorInit(cursor, i); 
-                else if (cursor.y == this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X && i < (int) this->room_infos.size() - 1) {
+                else if (cursor.y == this->FIELD_BOX_HEIGHT - this->FIELD_FRAME && i < (int) this->room_infos.size() - 1) {
                     i++;
                     show_room_infos.push_back(this->room_infos[i]);
                     show_room_infos.erase(show_room_infos.begin());
                 } else {
-                    if (cursor.y < this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X) cursor.y++;
+                    if (cursor.y < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME) cursor.y++;
                     if (i < (int) this->room_infos.size() - 1) i++;
                 }
                 this->updateField(cursor.y, show_room_infos);
@@ -103,8 +129,8 @@ void JoinRoomForm::keyWait() {
             case KEY_UP:
                 if (cursor.y == reload) break;
                 if (cursor.y == init) {
-                    cursor = {this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X, 1};
-                    i = this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X - 1;
+                    cursor = {this->FIELD_BOX_HEIGHT - this->FIELD_FRAME, 1};
+                    i = this->FIELD_BOX_HEIGHT - this->FIELD_FRAME - 1;
                 } else if (cursor.y == 1 && i > 0) {
                     i--;
                     show_room_infos.insert(show_room_infos.begin(), this->room_infos[i]);
@@ -142,30 +168,55 @@ void JoinRoomForm::keyWait() {
     }
 }
 
-// カーソルを初期化する
+/**
+ * @brief カーソルの位置を選択可能な部屋の一番上になるよう初期化する
+ * 
+ * @param cursor 初期化したいカーソル
+ * @param i 選択可能な部屋のインデックス
+ * @return void
+ */
 void JoinRoomForm::cursorInit(Position &cursor, int &i) {
     cursor = {1, 1};
     i = 0;
 }
 
-// リロードの文字を変更する
+/**
+ * @brief リロードの文字を更新する
+ * 
+ * @param color 更新する色
+ * @return void
+ */
 void JoinRoomForm::changeCursorReload(const int color) {
     wattrset(this->box_win, COLOR_PAIR(color));
     mvwprintw(this->box_win, this->reload.y, this->reload.x, "reload");
     wrefresh(this->box_win);
 }
 
-// フィールドに表示する部屋一覧を作成
+/**
+ * @brief 選択可能な部屋一覧からフィールドに表示する部屋を選択する
+ * 
+ * 選択可能な部屋一覧の先頭から，
+ * 4つまでをフィールドに表示する部屋一覧として選択する
+ * 
+ * @param show_room_infos フィールドに表示する部屋一覧
+ * @return void
+ */
 void JoinRoomForm::selectFieldRoom(std::vector<RoomInfo> &show_room_infos) {
     show_room_infos.clear();
-    for (int j = 0; j < (int)this->room_infos.size() && j < this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X; j++) {
+    for (int j = 0; j < (int)this->room_infos.size() && j < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME; j++) {
         show_room_infos.push_back(this->room_infos[j]);
     }
 }
 
-// フィールドに表示される部屋一覧を更新する
+/**
+ * @brief フィールドに表示する部屋一覧を更新する
+ * 
+ * @param cursor_y カーソルの現在地
+ * @param show_room_infos フィールドに表示する部屋一覧
+ * @return void
+ */
 void JoinRoomForm::updateField(const int cursor_y, const std::vector<RoomInfo> show_room_infos) {
-    for (int i = 0; i < this->FIELD_BOX_HEIGHT - this->FIELD_SPACE_X; i++) {
+    for (int i = 0; i < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME; i++) {
         if (i + 1 == cursor_y) wattrset(this->field_win, COLOR_PAIR(BG_WHITE));
         else wattrset(this->field_win, COLOR_PAIR(0));
         mvwprintw(this->field_win, i + 1, 1, show_room_infos[i].room_name);

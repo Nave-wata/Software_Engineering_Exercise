@@ -1,17 +1,38 @@
+/**
+ * @file InputForm.cpp
+ * 
+ * @brief InputFormクラスのソースファイル
+ * 
+ * @author Nave-wata
+ * 
+ * @date 2023-06-02
+ */
+
 #include "views/InputForm.hpp"
 #include <cstring>
 
-// コンストラクタ
+/**
+ * @brief コンストラクタ
+ * 
+ * @param _title_msg タイトルメッセージ
+ * @param _field_msg  入力項目の前に表示するメッセージ
+ */
 InputForm::InputForm(const char *_title_msg, const char *_field_msg)
     : title_msg(_title_msg), field_msg(_field_msg) {}
 
-// デストラクタ
+/**
+ * @brief デストラクタ
+ */
 InputForm::~InputForm() {
     delwin(this->box_win);
     delwin(this->field_win);
 }
 
-// フォームを表示する
+/**
+ * @brief フォームを表示する
+ * 
+ * @return void
+ */
 void InputForm::showForm() {
     // フォームのボックスを表示する
     this->showBox(
@@ -37,7 +58,11 @@ void InputForm::showForm() {
     this->keyWait();
 }
 
-// フォームの内容を表示する
+/**
+ * @brief フォームの中身を表示する
+ * 
+ * @return void
+ */
 void InputForm::showContents() {
     const int space = 4;
     this->title = {this->WIN_BASE_Y, this->WIN_BASE_X};
@@ -48,7 +73,11 @@ void InputForm::showContents() {
 
 }
 
-// キー入力待ち
+/**
+ * @brief キー入力待ち
+ * 
+ * @return void
+ */
 void InputForm::keyWait() {
     int c = '\0';
     char str[256] = {"\0"};
