@@ -39,8 +39,8 @@ class JoinRoomForm: public BaseBox {
         void showForm();
 
     protected:
-        void showContents();
-        void keyWait();
+        void showContents() override;
+        void keyWait() override;
 
     private:
         inline void cursorInit(Position&, int&);

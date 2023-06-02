@@ -27,6 +27,6 @@ class InputForm: public BaseBox {
         void showForm();
     
     protected:
-        virtual void showContents();
-        void keyWait();
+        void showContents() override;
+        void keyWait() override;
 };

@@ -19,6 +19,6 @@ class CreateOrJoinRoomForm: public BaseBox {
         void showForm();
 
     protected:
-        void showContents();
-        void keyWait();
+        void showContents() override;
+        void keyWait() override;
 };
