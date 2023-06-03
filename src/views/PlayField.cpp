@@ -79,8 +79,8 @@ void PlayField::showField() {
     this->showBox(
         this->FIELD_BOX_HEIGHT,
         this->FIELD_BOX_WIDTH - 1,
-        this->center_y - (this->FIELD_BOX_HEIGHT) / 2,
-        this->center_x - (this->FIELD_BOX_WIDTH) / 2
+        this->FIELD_CENTER_Y - (this->FIELD_BOX_HEIGHT) / 2,
+        this->FIELD_CENTER_X - (this->FIELD_BOX_WIDTH) / 2
     );
     wrefresh(this->win);
 }
