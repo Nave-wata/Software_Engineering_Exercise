@@ -20,6 +20,7 @@ enum class PuyoState {
     RED,
     BLUE,
     GREEN,
+    NUISANCE
 };
 
 /**
@@ -43,5 +44,5 @@ class Puyo {
         void setState(const PuyoState state);
         WINDOW* getWin();
         void setWin(WINDOW* win);
-        void showPuyo();
+        void showPuyo(char c='@');
 };

@@ -18,6 +18,7 @@ Puyo::Puyo() {
     init_pair(static_cast<int>(PuyoState::RED), COLOR_RED, COLOR_BLACK);
     init_pair(static_cast<int>(PuyoState::BLUE), COLOR_BLUE, COLOR_BLACK);
     init_pair(static_cast<int>(PuyoState::GREEN), COLOR_GREEN, COLOR_BLACK);
+    init_pair(static_cast<int>(PuyoState::NUISANCE), COLOR_WHITE, COLOR_BLACK);
 }
 
 /**
@@ -67,12 +68,14 @@ void Puyo::setWin(WINDOW* win) {
 /**
  * @brief ぷよを表示する
  * 
+ * @param c char ぷよを表示するときの文字
  * @return void
  */
-void Puyo::showPuyo() {
+void Puyo::showPuyo(char c) {
     if (this->state == PuyoState::NONE) waddch(this->win, COLOR_PAIR(PuyoState::NONE)|' ');
-    else if (this->state == PuyoState::RED) waddch(this->win, COLOR_PAIR(PuyoState::RED)|'@');
-    else if (this->state == PuyoState::BLUE) waddch(this->win, COLOR_PAIR(PuyoState::BLUE)|'@');
-    else if (this->state == PuyoState::GREEN) waddch(this->win, COLOR_PAIR(PuyoState::GREEN)|'@');
+    else if (this->state == PuyoState::RED) waddch(this->win, COLOR_PAIR(PuyoState::RED)|c);
+    else if (this->state == PuyoState::BLUE) waddch(this->win, COLOR_PAIR(PuyoState::BLUE)|c);
+    else if (this->state == PuyoState::GREEN) waddch(this->win, COLOR_PAIR(PuyoState::GREEN)|c);
+    else if (this->state == PuyoState::NUISANCE) waddch(this->win, COLOR_PAIR(PuyoState::NUISANCE)|c);
     wrefresh(this->win);
 }
