@@ -5,52 +5,19 @@
  * 
  * @author Nave-wata
  * 
- * @date 2023-06-03
+ * @date 2023-06-04
  */
 
 #pragma once
 
 #include "views/BaseBox.hpp"
 #include "views/DynamicField.hpp"
+#include "views/Puyo.hpp"
 
 /**
- * @brief 該当セルにおけるぷよの状態
+ * @brief プレイフィールドを表すクラス
  */
-enum class PuyoState {
-    NONE,
-    RED,
-    BLUE,
-    GREEN,
-};
-
-/**
- * @brief 1つのぷよを表すことが可能なセルの構造体
- * 
- * プレイフィールドに複数のセルが存在し，
- * それぞれのセルにでぷよの位置・状態を管理する
- * 
- * @param puyo ぷよの状態
- * @param win ぷよを表示するためのウィンドウ
- */
-typedef struct {
-    PuyoState puyo;
-    WINDOW* win;
-} cell;
-
 class PlayField: public BaseBox, DynamicField {
-    public:
-        /** @brief フィールド上に存在するぷよの状態(なにもない) */
-        const PuyoState NONE = PuyoState::NONE;
-
-        /** @brief フィールド上に存在するぷよの状態(赤) */
-        const PuyoState RED = PuyoState::RED;
-
-        /** @brief フィールド上に存在するぷよの状態(青) */
-        const PuyoState BLUE = PuyoState::BLUE;
-
-        /** @brief フィールド上に存在するぷよの状態(緑) */
-        const PuyoState GREEN = PuyoState::GREEN;
-
     private:
         /** @brief プレイフィールドの行数 */
         static const int FIELD_BOX_HEIGHT = 12;
@@ -71,10 +38,10 @@ class PlayField: public BaseBox, DynamicField {
         const int CELL_CENTER_X = 2 + 1;
 
         /** @brief プレイフィールド上に存在するセル一覧 */
-        cell cells[CELL_HEIGHT][CELL_WIDTH];
+        Puyo puyos[CELL_HEIGHT][CELL_WIDTH];
 
         /** @brief 前回プレイフィールド上に存在したセル一覧 */
-        cell prev_cells[CELL_HEIGHT][CELL_WIDTH];
+        Puyo prev_puyos[CELL_HEIGHT][CELL_WIDTH];
 
     public:
         PlayField(const int y, const int x);

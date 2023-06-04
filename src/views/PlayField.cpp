@@ -5,7 +5,7 @@
  * 
  * @author Nave-wata
  * 
- * @date 2023-06-03
+ * @date 2023-06-04
  */
 
 #include "views/PlayField.hpp"
@@ -18,45 +18,47 @@
  */
 PlayField::PlayField(const int y, const int x): DynamicField(y, x) {
     // ぷよのカラーセットを作成する
-    init_pair(static_cast<int>(this->RED), COLOR_RED, COLOR_BLACK);
-    init_pair(static_cast<int>(this->BLUE), COLOR_BLUE, COLOR_BLACK);
-    init_pair(static_cast<int>(this->GREEN), COLOR_GREEN, COLOR_BLACK);
+    init_pair(static_cast<int>(PuyoState::RED), COLOR_RED, COLOR_BLACK);
+    init_pair(static_cast<int>(PuyoState::BLUE), COLOR_BLUE, COLOR_BLACK);
+    init_pair(static_cast<int>(PuyoState::GREEN), COLOR_GREEN, COLOR_BLACK);
 
     // フィールドのセルを初期化する
     for (int i = 0; i < this->CELL_HEIGHT; i++) {
         for (int j = 0; j < this->CELL_WIDTH; j++) {
-            this->prev_cells[i][j] = {this->NONE, nullptr};
-            this->cells[i][j] = {this->NONE, newwin(
+            this->prev_puyos[i][j].setState(PuyoState::NONE);
+            this->prev_puyos[i][j].setWin(nullptr);
+            this->puyos[i][j].setState(PuyoState::NONE);
+            this->puyos[i][j].setWin(newwin(
                 1, 1,
                 this->center_y - (this->CELL_HEIGHT / 2) + i,
                 this->center_x - (this->CELL_WIDTH / 2) + (j * this->ONE_CHARACTER_WIDTH) - this->CELL_CENTER_X
-            )};
+            ));
         }
     }
 
-    // /** ダミーデータ */
-    // this->cells[3][2].puyo = this->RED;
-    // this->cells[4][2].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 1][0].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 2][0].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 3][0].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 1][1].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 2][1].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 3][1].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 4][1].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 1][2].puyo = this->BLUE;
-    // this->cells[this->CELL_HEIGHT - 2][2].puyo = this->BLUE;
-    // this->cells[this->CELL_HEIGHT - 3][2].puyo = this->BLUE;
-    // this->cells[this->CELL_HEIGHT - 4][2].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 1][3].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 2][3].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 3][3].puyo = this->GREEN;
-    // this->cells[this->CELL_HEIGHT - 4][3].puyo = this->BLUE;
-    // this->cells[this->CELL_HEIGHT - 1][4].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 2][4].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 3][4].puyo = this->RED;
-    // this->cells[this->CELL_HEIGHT - 4][4].puyo = this->GREEN;
-    // /***/
+    /** ダミーデータ */
+    // this->createPuyo(3, 2, PuyoState::RED);
+    // this->createPuyo(4, 2, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 1, 0, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 2, 0, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 3, 0, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 1, 1, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 2, 1, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 3, 1, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 4, 1, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 1, 2, PuyoState::BLUE);
+    // this->createPuyo(this->CELL_HEIGHT - 2, 2, PuyoState::BLUE);
+    // this->createPuyo(this->CELL_HEIGHT - 3, 2, PuyoState::BLUE);
+    // this->createPuyo(this->CELL_HEIGHT - 4, 2, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 1, 3, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 2, 3, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 3, 3, PuyoState::GREEN);
+    // this->createPuyo(this->CELL_HEIGHT - 4, 3, PuyoState::BLUE);
+    // this->createPuyo(this->CELL_HEIGHT - 1, 4, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 2, 4, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 3, 4, PuyoState::RED);
+    // this->createPuyo(this->CELL_HEIGHT - 4, 4, PuyoState::GREEN);
+    /** */
 }
 
 /**
@@ -65,7 +67,7 @@ PlayField::PlayField(const int y, const int x): DynamicField(y, x) {
 PlayField::~PlayField() {
     for (int i = 0; i < this->CELL_HEIGHT; i++) {
         for (int j = 0; j < this->CELL_WIDTH; j++) {
-            delwin(this->cells[i][j].win);
+            delwin(this->puyos[i][j].getWin());
         }
     }
 }
@@ -94,12 +96,8 @@ void PlayField::updateField() {
     // 前回から変化した部分だけ更新する
     for (int i = 0; i < this->CELL_HEIGHT; i++) {
         for (int j = 0; j < this->CELL_WIDTH; j++) {
-            if (this->cells[i][j].puyo != prev_cells[i][j].puyo) {
-                if (this->cells[i][j].puyo == this->NONE) waddch(this->cells[i][j].win, COLOR_PAIR(this->NONE)|' ');
-                else if (this->cells[i][j].puyo == this->RED) waddch(this->cells[i][j].win, COLOR_PAIR(this->RED)|'@');
-                else if (this->cells[i][j].puyo == this->BLUE) waddch(this->cells[i][j].win, COLOR_PAIR(this->BLUE)|'@');
-                else if (this->cells[i][j].puyo == this->GREEN) waddch(this->cells[i][j].win, COLOR_PAIR(this->GREEN)|'@');
-                wrefresh(this->cells[i][j].win);
+            if (this->puyos[i][j].getState() != prev_puyos[i][j].getState()) {
+                this->puyos[i][j].showPuyo();
             }
         }
     }
@@ -107,7 +105,7 @@ void PlayField::updateField() {
     // 次回のために今回の状態を保存する
     for (int i = 0; i < this->CELL_HEIGHT; i++) 
         for (int j = 0; j < this->CELL_WIDTH; j++)
-            cells[i][j].puyo = prev_cells[i][j].puyo;
+            this->puyos[i][j].setState(this->prev_puyos[i][j].getState());
 }
 
 /**
@@ -118,7 +116,7 @@ void PlayField::updateField() {
  * @return int ぷよの状態
  */
 int PlayField::getPuyo(const int x, const int y) {
-    return static_cast<int>(this->cells[y][x].puyo);
+    return static_cast<int>(this->puyos[y][x].getState());
 }
 
 /**
@@ -130,7 +128,7 @@ int PlayField::getPuyo(const int x, const int y) {
  * @return void
  */
 void PlayField::createPuyo(const int y, const int x, const PuyoState color) {
-    this->cells[y][x].puyo = color;
+    this->puyos[y][x].setState(color);
 }
 
 /**
@@ -143,7 +141,7 @@ void PlayField::createPuyo(const int y, const int x, const PuyoState color) {
  * @return void
  */
 void PlayField::movePuyo(const int from_y, const int from_x, const int to_y, const int to_x) {
-    this->createPuyo(to_x, to_y, this->cells[from_y][from_x].puyo);
+    this->createPuyo(to_x, to_y, this->puyos[from_y][from_x].getState());
     this->deletePuyo(from_x, from_y);
 }
 
@@ -155,5 +153,5 @@ void PlayField::movePuyo(const int from_y, const int from_x, const int to_y, con
  * @return void
  */
 void PlayField::deletePuyo(const int y, const int x) {
-    this->cells[y][x].puyo = this->NONE;
+    this->puyos[y][x].setState(PuyoState::NONE);
 }
