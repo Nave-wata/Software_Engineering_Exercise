@@ -13,7 +13,12 @@
 /**
  * @brief コンストラクタ
  */
-Puyo::Puyo() {}
+Puyo::Puyo() {
+    // ぷよのカラーセットを作成する
+    init_pair(static_cast<int>(PuyoState::RED), COLOR_RED, COLOR_BLACK);
+    init_pair(static_cast<int>(PuyoState::BLUE), COLOR_BLUE, COLOR_BLACK);
+    init_pair(static_cast<int>(PuyoState::GREEN), COLOR_GREEN, COLOR_BLACK);
+}
 
 /**
  * @brief デストラクタ

@@ -17,11 +17,6 @@
  * @param x int フィールドのx座標
  */
 PlayField::PlayField(const int y, const int x): DynamicField(y, x) {
-    // ぷよのカラーセットを作成する
-    init_pair(static_cast<int>(PuyoState::RED), COLOR_RED, COLOR_BLACK);
-    init_pair(static_cast<int>(PuyoState::BLUE), COLOR_BLUE, COLOR_BLACK);
-    init_pair(static_cast<int>(PuyoState::GREEN), COLOR_GREEN, COLOR_BLACK);
-
     // フィールドのセルを初期化する
     for (int i = 0; i < this->CELL_HEIGHT; i++) {
         for (int j = 0; j < this->CELL_WIDTH; j++) {
