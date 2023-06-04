@@ -18,7 +18,9 @@ ChainField::ChainField(const int y, const int x): DynamicField(y, x), chain(0) {
 /**
  * @brief デストラクタ
  */
-ChainField::~ChainField() {}
+ChainField::~ChainField() {
+    delwin(this->win);
+}
 
 /**
  * @brief フィールドを表示する
