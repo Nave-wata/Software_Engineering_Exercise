@@ -30,30 +30,6 @@ PlayField::PlayField(const int y, const int x): DynamicField(y, x) {
             ));
         }
     }
-
-    /** ダミーデータ */
-    // this->createPuyo(3, 2, PuyoState::RED);
-    // this->createPuyo(4, 2, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 1, 0, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 2, 0, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 3, 0, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 1, 1, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 2, 1, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 3, 1, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 4, 1, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 1, 2, PuyoState::BLUE);
-    // this->createPuyo(this->CELL_HEIGHT - 2, 2, PuyoState::BLUE);
-    // this->createPuyo(this->CELL_HEIGHT - 3, 2, PuyoState::BLUE);
-    // this->createPuyo(this->CELL_HEIGHT - 4, 2, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 1, 3, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 2, 3, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 3, 3, PuyoState::GREEN);
-    // this->createPuyo(this->CELL_HEIGHT - 4, 3, PuyoState::BLUE);
-    // this->createPuyo(this->CELL_HEIGHT - 1, 4, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 2, 4, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 3, 4, PuyoState::RED);
-    // this->createPuyo(this->CELL_HEIGHT - 4, 4, PuyoState::GREEN);
-    /** */
 }
 
 /**
