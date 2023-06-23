@@ -29,7 +29,9 @@ ScoreField::ScoreField(const int y, const int x): DynamicField(y, x) , score(0) 
 /**
  * @brief デストラクタ
  */
-ScoreField::~ScoreField() {};
+ScoreField::~ScoreField() {
+    delwin(this->win);
+};
 
 /**
  * @brief スコアフィールドを表示する
