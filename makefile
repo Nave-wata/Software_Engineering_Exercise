@@ -21,6 +21,9 @@ $(OBJDIR)/$(TARGET).o: $(TARGET).cpp $(INCDIR)/*/*.hpp
 $(OBJDIR)/%.o: $(SRCDIR)/*/%.cpp $(INCDIR)/*/%.hpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INCDIR)/%.hpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
 clean:
 	rm -f $(TARGET) $(OBJECTS) $(OBJDIR)/$(TARGET).o
 
