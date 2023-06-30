@@ -1,15 +1,23 @@
+/**
+ * @file main.cpp
+ * 
+ * @brief メイン関数
+ * 
+ * @author Nave-wata
+ * 
+ * @date 2023-06-23
+ */
+
 #include <ncurses.h>
 #include <stdbool.h>
 #include <time.h>
 #include <unistd.h>
+#include <iostream>
 
-#include "views/SelectPlayerForm.hpp"
-#include "views/CreateOrJoinRoomForm.hpp"
-#include "views/CreateRoomForm.hpp" 
-#include "views/JoinRoomForm.hpp"
-#include "views/UserNameForm.hpp"
+#include "controllers/CreateOrJoinRoomController.hpp"
+#include <iostream>
 
-int main() {
+void mainInit() {
     initscr();
     cbreak();
     curs_set(0);
@@ -18,27 +26,20 @@ int main() {
     noecho();
     timeout(-1);
     refresh();
+}
 
-    // SelectPlayerForm *selectPlayerForm = new SelectPlayerForm();
-    // selectPlayerForm->showForm();
-    // delete selectPlayerForm;
-
-    // CreateOrJoinRoomForm *createOrJoinRoomForm = new CreateOrJoinRoomForm();
-    // createOrJoinRoomForm->showForm();
-    // delete createOrJoinRoomForm;
-
-    CreateRoomForm *createRoomForm = new CreateRoomForm("Please enter the room name.", "Room name: ");
-    createRoomForm->showForm();
-    delete createRoomForm;
-
-    // JoinRoomForm *joinRoomForm = new JoinRoomForm();
-    // joinRoomForm->showForm();
-    // delete joinRoomForm;
-
-    UserNameForm *userNameForm = new UserNameForm("Please enter the user name.", "User name: ");
-    userNameForm->showForm();
-    delete userNameForm;
-
+void mainDestroy() {
     endwin();
+}
+
+int main() {
+    mainInit();
+
+    CreateOrJoinRoomController controller;
+    controller.createOrJoin();
+
+    mainDestroy();
+
+    std::cout << controller.getAction() << std::endl;
     return 0;
 }

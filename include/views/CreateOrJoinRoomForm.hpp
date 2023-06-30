@@ -12,6 +12,9 @@
 
 #include "views/BaseBox.hpp"
 
+#define CREATE_ROOM 1
+#define JOIN_ROOM 2
+
 /**
  * @brief 部屋作成・参加フォームクラス
  * 
@@ -34,6 +37,9 @@ class CreateOrJoinRoomForm: public BaseBox {
         /** @brief ボックス内でコンテンツを表示し始める位置 y軸 */
         const int WIN_BASE_Y = 2;
 
+        /** @brief 部屋の操作 */
+        int action;
+
         /** @brief タイトルを表示し始める位置 */
         Position title;
 
@@ -47,6 +53,7 @@ class CreateOrJoinRoomForm: public BaseBox {
         CreateOrJoinRoomForm();
         ~CreateOrJoinRoomForm();
         void showForm();
+        int getAction();
 
     protected:
         void showContents() override;

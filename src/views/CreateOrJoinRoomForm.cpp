@@ -39,6 +39,15 @@ void CreateOrJoinRoomForm::showForm() {
 }
 
 /**
+ * @brief 部屋の操作を返す
+ * 
+ * @return int 部屋の操作
+ */
+int CreateOrJoinRoomForm::getAction() {
+    return this->action;
+}
+
+/**
  * @brief 選択可能な項目を表示する
  * 
  * @return void
@@ -54,17 +63,6 @@ void CreateOrJoinRoomForm::showContents() {
     mvwprintw(this->win, this->create.y, this->create.x, "[ ] Create");
     mvwprintw(this->win, this->join.y, this->join.x, "[ ] Join");
 }
-
-/**
- * キー入力処理
- * 
- *  - q: 終了
- *  - 右キー: 選択項目を右に移動
- *  - 左キー: 選択項目を左に移動
- *  - Enter: 選択項目を決定
- * 
- * @return void
-*/
 
 /**
  * @brief キーの入力処理
@@ -112,10 +110,10 @@ void CreateOrJoinRoomForm::keyWait() {
             case '\n':
                 if (cursor.y != -1) {
                     if (cursor.x == this->create.x + 1) {
-                        // 部屋の作成
+                        this->action = CREATE_ROOM;
                         return;
                     } else if (cursor.x == this->join.x + 1) {
-                        // 部屋の参加
+                        this->action = JOIN_ROOM;
                         return;
                     }
                 }
