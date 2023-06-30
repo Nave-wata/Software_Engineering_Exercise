@@ -5,7 +5,7 @@
  * 
  * @author Nave-wata
  * 
- * @date 2023-06-02
+ * @date 2023-06-30
  */
 
 #pragma once
@@ -31,6 +31,9 @@ class SelectPlayerForm: public BaseBox {
         /** @brief コンテンツを表示し始める位置 y軸 */
         const int WIN_BASE_Y = 2;
 
+        /** @brief 入力されたプレイ人数 */
+        int player_num;
+
         /** @brief タイトルを表示し始める位置 */
         Position title;
 
@@ -47,9 +50,8 @@ class SelectPlayerForm: public BaseBox {
         Position play4;
 
     public:
-        SelectPlayerForm();
-        ~SelectPlayerForm();
         void showForm();
+        int getPlayerOfNumber();
 
     protected:
         void showContents() override;

@@ -5,20 +5,10 @@
  * 
  * @author Nave-wata
  * 
- * @date 2023-06-02
+ * @date 2023-06-30
  */
 
 #include "views/SelectPlayerForm.hpp"
-
-/**
- * @brief コンストラクタ
- */
-SelectPlayerForm::SelectPlayerForm() {}
-
-/**
- * @brief デストラクタ
- */
-SelectPlayerForm::~SelectPlayerForm() {}
 
 /**
  * @brief プレイ人数選択フォームを表示する
@@ -55,6 +45,15 @@ void SelectPlayerForm::showContents() {
     mvwprintw(this->win, this->play2.y, this->play2.x, "[ ] 2");
     mvwprintw(this->win, this->play3.y, this->play3.x, "[ ] 3");
     mvwprintw(this->win, this->play4.y, this->play4.x, "[ ] 4");
+}
+
+/**
+ * @brief 入力されたプレイ人数を返す
+ * 
+ * @return int 入力されたプレイ人数
+ */
+int SelectPlayerForm::getPlayerOfNumber() {
+    return this->player_num;
 }
 
 /**
@@ -100,16 +99,16 @@ void SelectPlayerForm::keyWait() {
             case '\n':
                 if (cursor.y != -1) {
                     if (cursor.y == this->play1.y) {
-                        // 1人プレイ
+                        this->player_num = 1;
                         return;
                     } else if (cursor.y == this->play2.y) {
-                        // 2人プレイ
+                        this->player_num = 2;
                         return;
                     } else if (cursor.y == this->play3.y) {
-                        // 3人プレイ
+                        this->player_num = 3;
                         return;
                     } else if (cursor.y == this->play4.y) {
-                        // 4人プレイ
+                        this->player_num = 4;
                         return;
                     }
                 }
