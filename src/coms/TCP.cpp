@@ -83,6 +83,6 @@ void TCP::_accept() {
 /**
  * @brief 接続を行う
  */
-void TCP::_connect() {
-    connect(this->sockfd, (struct sockaddr *)&this->addr, sizeof(this->addr));
+int TCP::_connect() {
+    return connect(this->sockfd, (struct sockaddr *)&this->addr, sizeof(this->addr));
 }

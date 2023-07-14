@@ -31,9 +31,9 @@ InputForm::~InputForm() {
 /**
  * @brief フォームを表示する
  * 
- * @return void
+ * @return std::string 部屋名
  */
-void InputForm::showForm() {
+std::string InputForm::showForm() {
     // フォームのボックスを表示する
     this->showBox(
         this->FORM_BOX_HEIGHT,
@@ -56,6 +56,8 @@ void InputForm::showForm() {
     wrefresh(this->box_win);
     wrefresh(this->field_win);
     this->keyWait();
+
+    return this->room_name;
 }
 
 /**
@@ -70,7 +72,6 @@ void InputForm::showContents() {
 
     mvwprintw(this->box_win, this->title.y, this->title.x, this->title_msg);
     mvwprintw(this->box_win, this->field.y, this->field.x, this->field_msg);
-
 }
 
 /**
@@ -113,4 +114,5 @@ void InputForm::keyWait() {
     curs_set(0);    // カーソルを非表示にする
     noecho();       // 入力文字を非表示にする
     cbreak();       // キーを押すと即座に入力を処理する
+    this->room_name = str;
 }

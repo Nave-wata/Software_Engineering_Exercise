@@ -27,5 +27,5 @@ class TCP: public Socket {
         std::string _recv();
         void _listen();
         void _accept();
-        void _connect();
+        int _connect();
 };

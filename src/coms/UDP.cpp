@@ -47,6 +47,26 @@ void UDP::_recv(std::string& msg, std::string& ip) {
 }
 
 /**
+ * @brief UDP通信を受け付ける
+ * 
+ * @param msg 受信したメッセージ
+ */
+void UDP::_recv(std::string &msg) {
+    std::string ip;
+    this->_recv(msg, ip);
+}
+
+/**
+ * @brief UDP通信を行う
+ * 
+ * @param msg 送信するメッセージ
+ * @param ip 送信先のIPアドレス
+ */
+void UDP::_send(const std::string msg) {
+    sendto(this->sockfd, msg.c_str(), msg.length(), 0, (struct sockaddr *)&this->addr, sizeof(this->addr));
+}
+
+/**
  * @brief ブロードキャストを行う
  * 
  * @param msg ブロードキャストするメッセージ

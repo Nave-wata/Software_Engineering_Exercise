@@ -19,6 +19,8 @@ class UDP: public Socket {
 
     public:
         UDP(const std::string ip="255.255.255.255", const int port=50000);
+        void _send(const std::string msg);
         void _recv(std::string& msg, std::string& ip);
+        void _recv(std::string& msg);
         void broadcast(const std::string msg);
 };

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "views/BaseBox.hpp"
+#include <string>
 
 /**
  * @brief InputFormクラス
@@ -62,10 +63,13 @@ class InputForm: public BaseBox {
         /** @brief 入力フィールドの前に表示するメッセージを表示し始める位置 */
         Position field;
 
+        /** @brief 入力された部屋名 */
+        std::string room_name;
+
     public:
         InputForm(const char*, const char*);
         virtual ~InputForm();
-        void showForm();
+        std::string showForm();
     
     protected:
         void showContents() override;
