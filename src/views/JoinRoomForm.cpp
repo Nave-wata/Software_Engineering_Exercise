@@ -9,6 +9,8 @@
  */
 
 #include "views/JoinRoomForm.hpp"
+#include "coms/SearchRoomCom.hpp"
+#include <iostream>
 
 /**
  * @brief コンストラクタ
@@ -16,16 +18,8 @@
 JoinRoomForm::JoinRoomForm() {
     // カラーセットの作成
     init_pair(BG_WHITE, COLOR_BLACK, COLOR_WHITE);
-
-    // ダミーデータを作成
-    for (int i = 1; i <= 9; i++) {
-        RoomInfo room_info;
-        room_info.room_name = new char[256];
-        room_info.ip_address = new char[256];
-        sprintf(room_info.room_name, "Room %d", i);
-        sprintf(room_info.ip_address, "150.89.0.%d", i);
-        this->room_infos.push_back(room_info);
-    }
+    
+    this->searchRoom();
 }
 
 /**
@@ -86,7 +80,7 @@ void JoinRoomForm::showContents() {
     mvwprintw(this->box_win, this->title.y, this->title.x, "Please select the room name.");
     mvwprintw(this->box_win, this->reload.y, this->reload.x, "reload");
 
-    for (int i = 0; i < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME; i++) {
+    for (int i = 0; this->isCanViewRange(i) && !this->room_infos.empty(); i++) {
         mvwprintw(this->field_win, i + 1, 1, this->room_infos[i].room_name);
     }
 }
@@ -114,6 +108,7 @@ void JoinRoomForm::keyWait() {
     while ((c = getch()) != 'q') {
         switch (c) {
             case KEY_DOWN:
+                if (this->room_infos.empty()) break;
                 if (cursor.y == reload) break;
                 if (cursor.y == init) cursorInit(cursor, i); 
                 else if (cursor.y == this->FIELD_BOX_HEIGHT - this->FIELD_FRAME && i < (int) this->room_infos.size() - 1) {
@@ -121,12 +116,13 @@ void JoinRoomForm::keyWait() {
                     show_room_infos.push_back(this->room_infos[i]);
                     show_room_infos.erase(show_room_infos.begin());
                 } else {
-                    if (cursor.y < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME) cursor.y++;
+                    if (this->isCanViewRange(cursor.y)) cursor.y++;
                     if (i < (int) this->room_infos.size() - 1) i++;
                 }
                 this->updateField(cursor.y, show_room_infos);
                 break;
             case KEY_UP:
+                if (this->room_infos.empty()) break;
                 if (cursor.y == reload) break;
                 if (cursor.y == init) {
                     cursor = {this->FIELD_BOX_HEIGHT - this->FIELD_FRAME, 1};
@@ -157,11 +153,16 @@ void JoinRoomForm::keyWait() {
                 if (cursor.y == init);
                 else if (cursor.y == reload) {
                     cursorInit(cursor, i);
+                    this->searchRoom();
                     this->changeCursorReload(default_color);
                     this->selectFieldRoom(show_room_infos);
                     this->updateField(cursor.y, show_room_infos);
-                } else {
+                } else if (!this->room_infos.empty()) {
                     // 部屋入室
+                    std::cout << std::endl;
+                    std::cout << "Room name: " << show_room_infos[cursor.y - 1].room_name << std::endl;
+                    std::cout << "Ip address: " << show_room_infos[cursor.y - 1].ip_address << std::endl;
+                    sleep(5);
                     return;
                 }
         }
@@ -203,7 +204,7 @@ void JoinRoomForm::changeCursorReload(const int color) {
  */
 void JoinRoomForm::selectFieldRoom(std::vector<RoomInfo> &show_room_infos) {
     show_room_infos.clear();
-    for (int j = 0; j < (int)this->room_infos.size() && j < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME; j++) {
+    for (int j = 0; isCanViewRange(j) && !this->room_infos.empty(); j++) {
         show_room_infos.push_back(this->room_infos[j]);
     }
 }
@@ -216,10 +217,44 @@ void JoinRoomForm::selectFieldRoom(std::vector<RoomInfo> &show_room_infos) {
  * @return void
  */
 void JoinRoomForm::updateField(const int cursor_y, const std::vector<RoomInfo> show_room_infos) {
-    for (int i = 0; i < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME; i++) {
+    if (show_room_infos.empty()) return;
+
+    for (int i = 0; this->isCanViewRange(i); i++) {
         if (i + 1 == cursor_y) wattrset(this->field_win, COLOR_PAIR(BG_WHITE));
         else wattrset(this->field_win, COLOR_PAIR(0));
         mvwprintw(this->field_win, i + 1, 1, show_room_infos[i].room_name);
     }
+
     wrefresh(this->field_win);
+}
+
+/**
+ * @brief 部屋入室
+ * 
+ * @return void
+ */
+void JoinRoomForm::searchRoom() {
+    SearchRoomCom search_room_com;
+    std::vector<roomInfo> recv_room_infos = search_room_com.recvRoomInfo();
+
+    this->room_infos.clear();
+    for (int i = 0; i < static_cast<int>(recv_room_infos.size()); i++) {
+        RoomInfo room_info;
+        room_info.room_name = new char[256];
+        room_info.ip_address = new char[256];
+        sprintf(room_info.room_name, "%s", recv_room_infos[i].room_name.c_str());
+        sprintf(room_info.ip_address, "%s", recv_room_infos[i].ip.c_str());
+        this->room_infos.push_back(room_info);
+    }
+}
+
+/**
+ * @brief 部屋表示範囲を判定する
+ * 
+ * @param i 部屋表示範囲を判定したいインデックス
+ * @return bool
+ */
+bool JoinRoomForm::isCanViewRange(const int i) {
+    return i < static_cast<int>(this->room_infos.size()) 
+        && i < this->FIELD_BOX_HEIGHT - this->FIELD_FRAME;
 }

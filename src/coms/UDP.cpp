@@ -8,7 +8,9 @@
  * @date 2023-07-06
  */
 
+#include <sys/select.h>
 #include "coms/UDP.hpp"
+#include <string.h>
 
 /**
  * @brief UDPクラスのコンストラクタ
@@ -28,6 +30,25 @@ UDP::UDP(const std::string ip, const int port)
         this->addr.sin_addr.s_addr = inet_addr(this->ip.c_str());
     }
     this->addr.sin_port = htons(this->port);
+}
+
+void UDP::_recv(std::string& msg, std::string& ip, const int sec, const int usec) {
+    struct timeval tv;
+    fd_set readfds;
+    int ret_select;
+
+    tv.tv_sec = sec;
+    tv.tv_usec = usec;
+
+    FD_ZERO(&readfds);
+    FD_SET(this->sockfd, &readfds);
+
+    memcpy(&readfds, &readfds, sizeof(fd_set));
+    ret_select = select(this->sockfd + 1, &readfds, NULL, NULL, &tv);
+
+    if (ret_select == 0) return;
+    else this->_recv(msg, ip);
+    
 }
 
 /**

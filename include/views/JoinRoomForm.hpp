@@ -103,4 +103,6 @@ class JoinRoomForm: public BaseBox {
         inline void changeCursorReload(const int);
         inline void selectFieldRoom(std::vector<RoomInfo>&);
         inline void updateField(const int, const std::vector<RoomInfo>);
+        inline void searchRoom();
+        inline bool isCanViewRange(const int i);
 };
