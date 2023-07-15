@@ -33,6 +33,7 @@ std::string CreateRoomController::inputRoomName() {
  * @param n プレイヤー数
  */
 std::vector<playerInfo> CreateRoomController::createRoom(const std::string room_name, const int n) {
+    this->validation(room_name);
     this->com.recvTcpInfo(room_name, n);
     std::vector<playerInfo> player_infos = this->com.sendTcpInfo();
     return player_infos;

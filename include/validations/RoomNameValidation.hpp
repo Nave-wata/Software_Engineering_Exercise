@@ -10,16 +10,10 @@
 
 #pragma once
 
-#include "coms/UDP.hpp"
 #include <vector>
+#include <string>
 
 class RoomNameValidation {
-    private:
-        UDP udp;
-
     public:
         void validation(const std::string room_name);
-    
-    private:
-        std::vector<std::string> recvRoomNames();
 };
