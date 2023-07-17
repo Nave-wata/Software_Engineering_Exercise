@@ -22,17 +22,17 @@ Socket::Socket(const std::string ip, const int port)
     : ip(ip), port(port) {}
 
 /**
- * @brief Socketクラスのデストラクタ
- * 
- * ソケット通信を終了する
- */
-Socket::~Socket() {
-    close(this->sockfd);
-}
-
-/**
  * @brief ポート番号を指定してソケット通信を開始する
  */
 void Socket::_bind() {
     bind(this->sockfd, (struct sockaddr *)&this->addr, sizeof(this->addr));
+}
+
+/**
+ * @brief ソケット通信に用いるソケットを取得する
+ * 
+ * @return ソケット通信に用いるソケット
+ */
+int Socket::getSockfd() {
+    return this->sockfd;
 }

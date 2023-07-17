@@ -15,7 +15,7 @@
  * @brief CreateRoomControllerクラスのコンストラクタ
  */
 CreateRoomController::CreateRoomController()
-    : form("Create room name", "Room name") {}
+    : form("Please enter the room name", "Room name: ") {}
 
 /**
  * @brief 入力された部屋名を取得する

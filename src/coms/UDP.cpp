@@ -32,6 +32,15 @@ UDP::UDP(const std::string ip, const int port)
     this->addr.sin_port = htons(this->port);
 }
 
+/**
+ * @brief UDPクラスのデストラクタ
+ * 
+ * ソケット通信を終了する
+ */
+UDP::~UDP() {
+    close(this->sockfd);
+}
+
 void UDP::_recv(std::string& msg, std::string& ip, const int sec, const int usec) {
     struct timeval tv;
     fd_set readfds;
@@ -48,7 +57,6 @@ void UDP::_recv(std::string& msg, std::string& ip, const int sec, const int usec
 
     if (ret_select == 0) return;
     else this->_recv(msg, ip);
-    
 }
 
 /**

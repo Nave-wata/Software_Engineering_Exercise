@@ -14,8 +14,10 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "controllers/CreateOrJoinRoomController.hpp"
+#include "controllers/CreateRoomController.hpp"
+#include "controllers/JoinRoomController.hpp"
 #include <iostream>
+#include <stdexcept>
 
 void mainInit() {
     initscr();
@@ -32,14 +34,38 @@ void mainDestroy() {
     endwin();
 }
 
-int main() {
-    mainInit();
+int main(int argc, char* argv[]) {
+    char c = argv[0][0];
+    c++;
 
-    CreateOrJoinRoomController controller;
-    controller.createOrJoin();
+    if (argc == 1) {
+        mainInit();
 
-    mainDestroy();
+        CreateRoomController createRoomController;
+        std::string room_name = createRoomController.inputRoomName();
+        std::vector<playerInfo> player_infos = createRoomController.createRoom(room_name, 1);
 
-    std::cout << controller.getAction() << std::endl;
+        mainDestroy();
+
+        for (auto player_info : player_infos) {
+            std::cout << player_info.room_name << std::endl;
+            std::cout << player_info.ip << std::endl;
+        }
+
+    } else {
+        mainInit();
+
+        JoinRoomController joinRoomController;
+        RoomInfo room_info = joinRoomController.show();
+        std::vector<playerInfo> player_infos = joinRoomController.joinRoom(room_info, 1);
+
+        mainDestroy();
+
+        for (auto player_info : player_infos) {
+            std::cout << player_info.room_name << std::endl;
+            std::cout << player_info.ip << std::endl;
+        }
+    }
+
     return 0;
 }

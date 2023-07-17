@@ -23,6 +23,6 @@ class CreateRoomController {
     public:
         CreateRoomController();
         std::string inputRoomName();
-        std::vector<playerInfo> createRoom(const std::string room_name, const int n);
+        std::vector<playerInfo> createRoom(const std::string room_name, const int n=1);
         void validation(const std::string room_name);
 };

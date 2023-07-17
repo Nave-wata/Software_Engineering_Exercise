@@ -10,7 +10,6 @@
 
 #include "views/JoinRoomForm.hpp"
 #include "coms/SearchRoomCom.hpp"
-#include <iostream>
 
 /**
  * @brief コンストラクタ
@@ -33,9 +32,9 @@ JoinRoomForm::~JoinRoomForm() {
 /**
  * @brief 部屋入室フォームを表示する
  * 
- * @return void
+ * @return RoomInfo 選択された部屋の情報
  */
-void JoinRoomForm::showForm() {
+RoomInfo JoinRoomForm::showForm() {
     int y, x;
 
     // フォームのボックスを表示する
@@ -64,6 +63,8 @@ void JoinRoomForm::showForm() {
     wrefresh(this->box_win);
     wrefresh(this->field_win);
     this->keyWait();
+
+    return this->selected_room;
 }
 
 /**
@@ -159,10 +160,10 @@ void JoinRoomForm::keyWait() {
                     this->updateField(cursor.y, show_room_infos);
                 } else if (!this->room_infos.empty()) {
                     // 部屋入室
-                    std::cout << std::endl;
-                    std::cout << "Room name: " << show_room_infos[cursor.y - 1].room_name << std::endl;
-                    std::cout << "Ip address: " << show_room_infos[cursor.y - 1].ip_address << std::endl;
-                    sleep(5);
+                    this->selected_room = {
+                        show_room_infos[cursor.y - 1].room_name,
+                        show_room_infos[cursor.y - 1].ip_address
+                    };
                     return;
                 }
         }

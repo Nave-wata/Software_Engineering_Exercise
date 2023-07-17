@@ -10,6 +10,16 @@
 
 #include "coms/TCP.hpp"
 #include <iostream>
+#include <errno.h>
+
+/**
+ * @brief TCPクラスのコンストラクタ
+ * 
+ * @param sockfd 通信に使用するソケット
+ */
+TCP::TCP(const int sockfd) {
+    this->sockfd = sockfd;
+}
 
 /**
  * @brief TCPクラスのコンストラクタ
@@ -25,15 +35,6 @@ TCP::TCP(const std::string ip, const int port)
     this->addr.sin_family = AF_INET;
     this->addr.sin_addr.s_addr = inet_addr(this->ip.c_str());
     this->addr.sin_port = htons(this->port);
-}
-
-/**
- * @brief TCPクラスのデストラクタ
- * 
- * ソケット通信を終了する
- */
-TCP::~TCP() {
-    close(this->sock);
 }
 
 /**
@@ -56,11 +57,16 @@ void TCP::_send(const std::string msg) {
  */
 std::string TCP::_recv() {
     char buf[1024] = {'\0'};
+    int ret;
 
     if (this->sock == -2) {
-        recv(this->sockfd, buf, sizeof(buf), 0);
+        ret = recv(this->sockfd, buf, sizeof(buf), 0);
     } else {
-        recv(this->sock, buf, sizeof(buf), 0);
+        ret = recv(this->sock, buf, sizeof(buf), 0);
+    }
+
+    if (ret == -1) {
+        perror("recv failed");
     }
     
     return std::string(buf);
@@ -75,14 +81,19 @@ void TCP::_listen() {
 
 /**
  * @brief 接続を受け入れる
+ * 
+ * @return int ソケット通信に用いるソケット
  */
-void TCP::_accept() {
+int TCP::_accept() {
     this->sock = accept(this->sockfd, NULL, NULL);
+    return this->sock;
 }
 
 /**
  * @brief 接続を行う
+ * 
+ * @return bool 接続に成功したかどうか
  */
-int TCP::_connect() {
-    return connect(this->sockfd, (struct sockaddr *)&this->addr, sizeof(this->addr));
+bool TCP::_connect() {
+    return connect(this->sockfd, (struct sockaddr *)&this->addr, sizeof(this->addr)) == 0;
 }

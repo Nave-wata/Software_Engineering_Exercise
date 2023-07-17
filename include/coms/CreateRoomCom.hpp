@@ -15,10 +15,12 @@
 #include "coms/UDP.hpp"
 #include "coms/TCP.hpp"
 
+#define CONNECT_SUCCESS "success"
+
 typedef struct {
     std::string room_name;
     std::string ip;
-    TCP tcp;
+    int sockfd;
 } playerInfo;
 
 /**

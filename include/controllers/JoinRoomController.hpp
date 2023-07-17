@@ -10,9 +10,12 @@
 
 #pragma once
 
-#include ""
+#include "coms/CreateRoomCom.hpp"
+#include "views/JoinRoomForm.hpp"
 
-class {
-    private:
-
+class JoinRoomController {
+    public:
+        RoomInfo show();
+        std::vector<playerInfo> joinRoom(const RoomInfo room_info);
+        // std::vector<playerInfo> joinRoom(const RoomInfo room_info, const int player_num);
 };

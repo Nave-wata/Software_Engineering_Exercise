@@ -21,11 +21,11 @@ class TCP: public Socket {
         int sock = -2;
 
     public:
-        TCP(const std::string, const int port=50000);
-        ~TCP();
+        TCP(const int sockfd);
+        TCP(const std::string, const int port);
         void _send(const std::string msg);
         std::string _recv();
         void _listen();
-        void _accept();
-        int _connect();
+        int _accept();
+        bool _connect();
 };

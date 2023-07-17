@@ -46,7 +46,7 @@ class Socket {
         const int port;
 
     public:
-        Socket(const std::string ip, const int port);
-        virtual ~Socket();
+        Socket(const std::string ip="", const int port=-1);
         void _bind();
+        int getSockfd();
 };

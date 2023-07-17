@@ -27,23 +27,32 @@ void CreateRoomCom::recvTcpInfo(const std::string room_name, const int n) {
     std::thread connect_tcp_thread(CreateRoomCom::__connectTcpThread, room_name, n);
     send_room_thread.join();
     connect_tcp_thread.join();
+
 }
 
 /**
  * @brief 全プレイヤーが相互にコネクションをはってもらう
- * 
+ *  
  * @return std::vector<playerInfo>
  */
 std::vector<playerInfo> CreateRoomCom::sendTcpInfo() {
-    for (int i = 0; i < static_cast<int>(CreateRoomCom::player_infos.size()); i++) {
-        for (int j = 0; j < static_cast<int>(CreateRoomCom::player_infos.size()); j++) {
-            if (i == j) {
-                continue;
-            }
-            CreateRoomCom::player_infos[i].tcp._send(CreateRoomCom::player_infos[j].ip);
-        }
-    }
     return CreateRoomCom::player_infos;
+
+    // for (auto &v: CreateRoomCom::player_infos) {
+    //     TCP host_tcp = TCP(v.sockfd);
+    //     host_tcp._send("try");
+    // }
+
+    // for (int i = 0; i < static_cast<int>(CreateRoomCom::player_infos.size()); i++) {
+    //     for (int j = i + 1; j < static_cast<int>(CreateRoomCom::player_infos.size()); j++) {
+    //         TCP send_tcp = TCP(CreateRoomCom::player_infos[i].sockfd);
+    //         TCP recv_tcp = TCP(CreateRoomCom::player_infos[j].sockfd);
+    //         send_tcp._send("s" + CreateRoomCom::player_infos[j].ip);
+    //         recv_tcp._send("r" + CreateRoomCom::player_infos[i].ip);
+    //     }
+    // }
+    
+    // return CreateRoomCom::player_infos;
 }
 
 /**
@@ -55,7 +64,7 @@ std::vector<playerInfo> CreateRoomCom::sendTcpInfo() {
 void CreateRoomCom::__sendRoomThread(const std::string room_name, const int player_num) {
     while (static_cast<int>(CreateRoomCom::player_infos.size()) < player_num) {
         CreateRoomCom::udp.broadcast(room_name);
-        Sleep::milliSleep(500);
+        Sleep::milliSleep(10);
     }
 }
 
@@ -79,16 +88,12 @@ void CreateRoomCom::__connectTcpThread(const std::string room_name, const int pl
         TCP tcp = TCP(ip, TCP_PORT);
         tcp._bind();
         tcp._listen();
-        tcp._accept();
-
-        if (tcp._recv() != room_name) {
-            continue;
-        }
+        int sockfd = tcp._accept();
 
         playerInfo info = {
             room_name,
             ip,
-            tcp
+            sockfd
         };
         CreateRoomCom::player_infos.push_back(info);
     }

@@ -89,10 +89,13 @@ class JoinRoomForm: public BaseBox {
         /** @brief "reload" 文字（ボタン）を表示し始める位置 */
         Position reload;
 
+        /** @brief 選択された部屋情報 */
+        RoomInfo selected_room;
+
     public:
         JoinRoomForm();
         ~JoinRoomForm();
-        void showForm();
+        RoomInfo showForm();
 
     protected:
         void showContents() override;
