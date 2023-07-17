@@ -20,6 +20,7 @@
 typedef struct {
     std::string room_name;
     std::string ip;
+    std::string name;
     int sockfd;
 } playerInfo;
 

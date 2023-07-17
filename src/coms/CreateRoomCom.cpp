@@ -93,6 +93,7 @@ void CreateRoomCom::__connectTcpThread(const std::string room_name, const int pl
         playerInfo info = {
             room_name,
             ip,
+            "",
             sockfd
         };
         CreateRoomCom::player_infos.push_back(info);

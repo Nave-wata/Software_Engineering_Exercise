@@ -33,7 +33,11 @@ bool JoinRoomCom::join() {
     udp._send(this->room_name);
 
     if (tcp._connect()) {
-        playerInfo player_info = {this->room_name, this->ip, tcp.getSockfd()};
+        playerInfo player_info = {
+            this->room_name,
+            this->ip,
+            "",
+            tcp.getSockfd()};
         this->player_infos.push_back(player_info);
         return true;
     }
