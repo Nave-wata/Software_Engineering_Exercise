@@ -9,7 +9,6 @@
  */
 
 #include "coms/SearchRoomCom.hpp"
-#include <iostream>
 #include <algorithm>
 
 /**

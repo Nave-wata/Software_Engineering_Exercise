@@ -10,6 +10,7 @@
 
 #include "views/JoinRoomForm.hpp"
 #include "coms/SearchRoomCom.hpp"
+#include <cstdlib>
 
 /**
  * @brief コンストラクタ
@@ -168,6 +169,8 @@ void JoinRoomForm::keyWait() {
                 }
         }
     }
+
+    std::exit(0);
 }
 
 /**

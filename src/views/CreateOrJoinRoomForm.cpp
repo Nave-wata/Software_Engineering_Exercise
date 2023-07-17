@@ -121,4 +121,6 @@ void CreateOrJoinRoomForm::keyWait() {
         }
         wrefresh(this->win);
     }
+
+    std::exit(0);
 }

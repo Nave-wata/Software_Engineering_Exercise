@@ -9,6 +9,7 @@
  */
 
 #include "views/SelectPlayerForm.hpp"
+#include <cstdlib>
 
 /**
  * @brief プレイ人数選択フォームを表示する
@@ -116,4 +117,6 @@ void SelectPlayerForm::keyWait() {
         };
         wrefresh(this->win);
     }
+
+    std::exit(0);
 }

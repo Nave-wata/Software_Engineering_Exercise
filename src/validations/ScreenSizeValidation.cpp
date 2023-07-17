@@ -33,9 +33,6 @@ void ScreenSizeValidation::validation(const int n) {
     int need_screen_cols = this->MIN_SCREEN_COLS + (this->ADD_SCREEN_COLS * (n - 1));
     int need_screen_rows = this->MIN_SCREEN_ROWS;
 
-    std::cout << "cols: " << this->screen_cols << std::endl;
-    std::cout << "rows: " << this->screen_rows << std::endl;
-
     if (this->screen_cols < need_screen_cols || this->screen_rows < need_screen_rows) {
         std::cerr << "Exception: " << std::endl;
         throw ScreenSizeException("画面サイズが小さすぎます");

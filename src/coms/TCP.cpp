@@ -9,7 +9,6 @@
  */
 
 #include "coms/TCP.hpp"
-#include <iostream>
 #include <errno.h>
 
 /**
