@@ -97,3 +97,50 @@ void PlayFieldController::setPuyos(const std::array<PuyoState, 2> puyos) {
     this->field.referencePuyo()[this->move_cit1.y][this->move_cit1.x].showPuyo();
     this->field.referencePuyo()[this->move_cit2.y][this->move_cit2.x].showPuyo();
 }
+
+/**
+ * @brief ゲームオーバーを判定する
+ * 
+ * @return bool
+ */
+bool PlayFieldController::isGameOver() {
+    std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyo_states = this->field.getStates();
+    return puyo_states[this->create_puyo_cit.y][this->create_puyo_cit.x] != PuyoState::NONE
+        || puyo_states[this->create_puyo_cit.y + 1][this->create_puyo_cit.x] != PuyoState::NONE;
+}
+
+/**
+ * @brief 次のぷよを生成するかを判定する
+ * 
+ * @return bool
+ */
+bool PlayFieldController::isNext() {
+    if (this->isCantDown() || this->isBottom()) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief ぷよが落下可能かを判定する
+ * 
+ * @return bool
+ */
+bool PlayFieldController::isCantDown() {
+    return !this->puyo_move_service.canMove(
+        this->move_cit1,
+        this->move_cit2,
+        this->field.getStates(),
+        DOWN
+    );
+}
+
+/**
+ * @brief ぷよがフィールドの底に到達したかを判定する
+ * 
+ * @return bool
+ */
+bool PlayFieldController::isBottom() {
+    return this->move_cit1.y == PlayField::CELL_HEIGHT - 1 
+        || this->move_cit2.y == PlayField::CELL_HEIGHT - 1;
+}

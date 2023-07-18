@@ -35,4 +35,10 @@ class PlayFieldController {
         void rotation(const int direction);
         std::array<PuyoState, 2> resetPuyo();
         void setPuyos(const std::array<PuyoState, 2> puyos);
+        bool isGameOver();
+        bool isNext();
+
+    private:
+        bool isCantDown();
+        bool isBottom();
 };
