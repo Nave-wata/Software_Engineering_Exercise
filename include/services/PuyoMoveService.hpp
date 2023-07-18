@@ -44,6 +44,10 @@ class PuyoMoveService {
             std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyo_states,
             const int direction
         );
+        void drop(
+            coordinate &cit, 
+            std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyo_states
+        );
         void move(
             coordinate &cit1, 
             coordinate &cit2, 

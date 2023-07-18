@@ -193,6 +193,21 @@ coordinate PuyoMoveService::canRotate(
 }
 
 /**
+ * @brief ぷよが落下した位置を返す
+ * 
+ * @param cit 落下させるぷよ
+ * @param puyo_states フィールド上のぷよの状態
+ */
+void PuyoMoveService::drop(
+    coordinate &cit, 
+    std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyo_states
+) {
+    while (canMove(cit, puyo_states, DOWN)) {
+        cit.y++;
+    }
+}
+
+/**
  * @brief ぷよを移動させる
  * 
  * 移動できるかを判定し，移動後の座標を返す

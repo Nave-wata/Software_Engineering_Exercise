@@ -18,8 +18,8 @@
  * @param x フィールドの幅
  */
 PlayFieldController::PlayFieldController(const int y, const int x)
-    : field(y, x)
-    , create_puyo_cit({0, 3})
+    : create_puyo_cit({0, 3})
+    , field(y, x)
     , move_cit1(create_puyo_cit)
     , move_cit2({create_puyo_cit.y + 1, create_puyo_cit.x}) {}
 
@@ -125,7 +125,7 @@ bool PlayFieldController::isNext() {
 /**
  * @brief ぷよを削除する
  */
-void PlayFieldController::deletePuyos() {
+std::vector<std::vector<coordinate>> PlayFieldController::deletePuyos() {
     std::vector<std::vector<coordinate>> deleted_puyos = this->puyo_delete_service.deletePuyos(this->field.getStates());
 
     for (auto deleted_puyo : deleted_puyos) {
@@ -136,6 +136,31 @@ void PlayFieldController::deletePuyos() {
         for (auto coordinate : deleted_puyo) {
             this->field.referencePuyo()[coordinate.y][coordinate.x].setState(PuyoState::NONE);
             this->field.referencePuyo()[coordinate.y][coordinate.x].showPuyo();
+        }
+    }
+
+    return deleted_puyos;
+}
+
+/**
+ * @brief ぷよを落下させる
+ */
+void PlayFieldController::dropPuyos() {
+    for (int y = PlayField::CELL_HEIGHT - 1; 0 <= y; y--) {
+        for (int x = PlayField::CELL_WIDTH - 1; 0 <= x; x--) {
+            coordinate current_coordinate = {y, x};
+            PuyoState state = this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].getState();
+
+            this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].setState(PuyoState::NONE);
+            this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].showPuyo();
+
+            this->puyo_move_service.drop(
+                current_coordinate,
+                this->field.getStates()
+            );
+
+            this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].setState(state);
+            this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].showPuyo();
         }
     }
 }
