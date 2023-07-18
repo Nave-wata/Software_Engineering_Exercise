@@ -125,17 +125,17 @@ bool PlayFieldController::isNext() {
 /**
  * @brief ぷよを削除する
  */
-std::vector<std::vector<coordinate>> PlayFieldController::deletePuyos() {
-    std::vector<std::vector<coordinate>> deleted_puyos = this->puyo_delete_service.deletePuyos(this->field.getStates());
+std::vector<std::vector<puyoInfo>> PlayFieldController::deletePuyos() {
+    std::vector<std::vector<puyoInfo>> deleted_puyos = this->puyo_delete_service.deletePuyos(this->field.getStates());
 
     for (auto deleted_puyo : deleted_puyos) {
         if (deleted_puyo.size() < 3) {
             continue;
         }
 
-        for (auto coordinate : deleted_puyo) {
-            this->field.referencePuyo()[coordinate.y][coordinate.x].setState(PuyoState::NONE);
-            this->field.referencePuyo()[coordinate.y][coordinate.x].showPuyo();
+        for (auto puyo_info : deleted_puyo) {
+            this->field.referencePuyo()[puyo_info.cit.y][puyo_info.cit.x].setState(PuyoState::NONE);
+            this->field.referencePuyo()[puyo_info.cit.y][puyo_info.cit.x].showPuyo();
         }
     }
 

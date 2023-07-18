@@ -47,7 +47,7 @@ class PlayFieldController {
         void setPuyos(const std::array<PuyoState, 2> puyos);
         bool isGameOver();
         bool isNext();
-        std::vector<std::vector<coordinate>> deletePuyos();
+        std::vector<std::vector<puyoInfo>> deletePuyos();
         void dropPuyos();
 
     private:
