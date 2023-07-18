@@ -9,6 +9,7 @@
  */
 
 #include "controllers/PlayFieldController.hpp"
+#include "utils/Sleep.hpp"
 
 /**
  * @brief PlayFieldControllerクラスのコンストラクタ
@@ -119,6 +120,24 @@ bool PlayFieldController::isNext() {
         return true;
     }
     return false;
+}
+
+/**
+ * @brief ぷよを削除する
+ */
+void PlayFieldController::deletePuyos() {
+    std::vector<std::vector<coordinate>> deleted_puyos = this->puyo_delete_service.deletePuyos(this->field.getStates());
+
+    for (auto deleted_puyo : deleted_puyos) {
+        if (deleted_puyo.size() < 3) {
+            continue;
+        }
+
+        for (auto coordinate : deleted_puyo) {
+            this->field.referencePuyo()[coordinate.y][coordinate.x].setState(PuyoState::NONE);
+            this->field.referencePuyo()[coordinate.y][coordinate.x].showPuyo();
+        }
+    }
 }
 
 /**
