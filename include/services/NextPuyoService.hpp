@@ -17,5 +17,5 @@
 
 class NextPuyoService {
     public:
-        std::array<PuyoState, 2> update();
+        std::array<PuyoState, 2> create();
 };

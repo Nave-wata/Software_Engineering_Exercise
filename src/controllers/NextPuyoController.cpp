@@ -27,12 +27,21 @@ void NextPuyoController::show() {
 }
 
 /**
+ * @brief 次のぷよを生成する
+ */
+void NextPuyoController::create() {
+    this->next_puyos = this->service.create();
+    this->field.updateField(this->next_puyos[0], this->next_puyos[1]);
+}
+
+/**
  * @brief 次のぷよを生成し，フィールドにセットする
  * 
  * @return std::array<PuyoState, 2> 
  */
 std::array<PuyoState, 2> NextPuyoController::update() {
-    std::array<PuyoState, 2> next_puyo = this->service.update();
-    this->field.updateField(next_puyo[0], next_puyo[1]);
-    return next_puyo;
+    std::array<PuyoState, 2> res = this->next_puyos;
+    this->next_puyos = this->service.create();
+    this->field.updateField(this->next_puyos[0], this->next_puyos[1]);
+    return res;
 }

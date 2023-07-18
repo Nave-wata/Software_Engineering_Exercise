@@ -24,8 +24,12 @@ class NextPuyoController {
         /** @brief 次のぷよを実際に生成する */
         NextPuyoService service;
 
+        /** @brief 次のぷよ */
+        std::array<PuyoState, 2> next_puyos;
+
     public:
         NextPuyoController(const int y, const int x);
         void show();
+        void create();
         std::array<PuyoState, 2> update();
 };

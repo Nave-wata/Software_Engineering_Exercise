@@ -20,8 +20,6 @@ PlayField::PlayField(const int y, const int x): DynamicField(y, x) {
     // フィールドのセルを初期化する
     for (int i = 0; i < this->CELL_HEIGHT; i++) {
         for (int j = 0; j < this->CELL_WIDTH; j++) {
-            this->prev_puyos[i][j].setState(PuyoState::NONE);
-            this->prev_puyos[i][j].setWin(nullptr);
             this->puyos[i][j].setState(PuyoState::NONE);
             this->puyos[i][j].setWin(newwin(
                 1, 1,
@@ -59,35 +57,29 @@ void PlayField::showField() {
 }
 
 /**
- * @brief フィールドを更新する
+ * @brief フィールドの指定したセルのぷよを取得する
  * 
- * @return void
+ * @return std::array<std::array<Puyo, CELL_HEIGHT>, CELL_WIDTH> ぷよの状態
  */
-void PlayField::updateField() {
-    // 前回から変化した部分だけ更新する
-    for (int i = 0; i < this->CELL_HEIGHT; i++) {
-        for (int j = 0; j < this->CELL_WIDTH; j++) {
-            if (this->puyos[i][j].getState() != prev_puyos[i][j].getState()) {
-                this->puyos[i][j].showPuyo();
-            }
+std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> PlayField::getStates() {
+    std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyoStates;
+
+    for (int i = 0; i < static_cast<int>(this->puyos.size()); i++) {
+        for (int j = 0; j < static_cast<int>(this->puyos[i].size()); j++) {
+            puyoStates[i][j] = this->puyos[i][j].getState();
         }
     }
 
-    // 次回のために今回の状態を保存する
-    for (int i = 0; i < this->CELL_HEIGHT; i++) 
-        for (int j = 0; j < this->CELL_WIDTH; j++)
-            this->puyos[i][j].setState(this->prev_puyos[i][j].getState());
+    return puyoStates;
 }
 
 /**
  * @brief フィールドの指定したセルのぷよを取得する
  * 
- * @param x int ぷよのx座標
- * @param y int ぷよのy座標
- * @return int ぷよの状態
+ * @return std::array<std::array<Puyo, CELL_HEIGHT>, CELL_WIDTH> ぷよの状態
  */
-int PlayField::getPuyo(const int x, const int y) {
-    return static_cast<int>(this->puyos[y][x].getState());
+std::array<std::array<Puyo, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT>& PlayField::referencePuyo() {
+    return this->puyos;
 }
 
 /**
@@ -100,6 +92,7 @@ int PlayField::getPuyo(const int x, const int y) {
  */
 void PlayField::createPuyo(const int y, const int x, const PuyoState color) {
     this->puyos[y][x].setState(color);
+    this->puyos[y][x].showPuyo();
 }
 
 /**

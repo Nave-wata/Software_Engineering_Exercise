@@ -15,7 +15,7 @@
  * 
  * @return std::array<PuyoState, 2> 次のぷよ
  */
-std::array<PuyoState, 2> NextPuyoService::update() {
+std::array<PuyoState, 2> NextPuyoService::create() {
     std::array<PuyoState, 2> nextPuyo;
     std::random_device random;
     std::mt19937 mt(random());
