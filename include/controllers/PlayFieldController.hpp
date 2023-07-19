@@ -54,6 +54,7 @@ class PlayFieldController {
         void dropPuyos();
         void gravity();
         bool isAllClear();
+        std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> getStates();
 
     private:
         bool isCantDown();

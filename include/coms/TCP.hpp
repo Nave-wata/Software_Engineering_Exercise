@@ -24,6 +24,7 @@ class TCP: public Socket {
         TCP(const int sockfd);
         TCP(const std::string, const int port);
         void _send(const std::string msg);
+        void _send(const char* msg);
         std::string _recv();
         void _listen();
         int _accept();

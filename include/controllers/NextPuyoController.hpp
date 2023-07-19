@@ -30,6 +30,6 @@ class NextPuyoController {
     public:
         NextPuyoController(const int y, const int x);
         void show();
-        void create();
+        std::array<PuyoState, 2> create();
         std::array<PuyoState, 2> update();
 };

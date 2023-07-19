@@ -12,6 +12,7 @@
 
 #include "ReadSettings.hpp"
 #include "PlayBoard.hpp"
+#include "coms/CreateRoomCom.hpp"
 
 class Playing {
     private:
@@ -21,10 +22,13 @@ class Playing {
         /** @brief 設定ファイルから読み込んだ各設定 */
         const Settings settings;
 
+        /** @brief プレイヤー情報 */
+        const std::vector<playerInfo> player_info;
+
         /** @brief プレイ人数 */
         const int player_num;
 
     public:
-        Playing(const Settings settings, const int player_num);
+        Playing(const Settings settings, const std::vector<playerInfo> player_info, const int player_num);
         void initScreen();
 };

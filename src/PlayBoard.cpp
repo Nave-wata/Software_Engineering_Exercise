@@ -25,7 +25,9 @@ PlayBoard::PlayBoard(const int y, const int x, const Settings settings, const bo
     , play_field_controller(y, x, settings.gravity)
     , score_controller(y, x, settings.all_clear_magnification)
     , settings(settings)
-    , single(single) {}
+    , single(single)
+    , next_puyos({PuyoState::NONE, PuyoState::NONE})
+    , score(0) {}
 
 /**
  * @brief プレイ画面を表示・管理する
@@ -36,7 +38,7 @@ void PlayBoard::show() {
     play_field_controller.show();
     score_controller.show();
 
-    next_puyo_controller.create();
+    this->next_puyos = next_puyo_controller.create();
 
     std::array<PuyoState, 2> puyos = next_puyo_controller.update();
     play_field_controller.create(puyos);
@@ -94,7 +96,7 @@ void PlayBoard::show() {
                 if (deleted_puyos.size() == 0) break;
 
                 chain++;
-                score_controller.update(deleted_puyos, chain, isAllClear);
+                this->score = score_controller.update(deleted_puyos, chain, isAllClear);
 
                 Sleep::milliSleep(100);
 

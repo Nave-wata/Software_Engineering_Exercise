@@ -50,6 +50,19 @@ void TCP::_send(const std::string msg) {
 }
 
 /**
+ * @brief メッセージを送信する
+ * 
+ * @param msg 送信するメッセージ
+ */
+void TCP::_send(const char* msg) {
+    if (this->sock == -2) {
+        send(this->sockfd, msg, sizeof(msg), 0);
+    } else {
+        send(this->sock, msg, sizeof(msg), 0);
+    }
+}
+
+/**
  * @brief メッセージを受信する
  * 
  * @return std::string 受信したメッセージ

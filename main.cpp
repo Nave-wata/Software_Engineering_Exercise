@@ -52,7 +52,7 @@ int main() {
         clear();
         refresh();
 
-        Playing playing(settings, player_num);
+        Playing playing(settings, player_info, player_num);
         playing.initScreen();
         
         clear();

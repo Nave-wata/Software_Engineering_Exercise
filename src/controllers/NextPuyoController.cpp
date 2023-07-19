@@ -29,9 +29,10 @@ void NextPuyoController::show() {
 /**
  * @brief 次のぷよを生成する
  */
-void NextPuyoController::create() {
+std::array<PuyoState, 2> NextPuyoController::create() {
     this->next_puyos = this->service.create();
     this->field.updateField(this->next_puyos[0], this->next_puyos[1]);
+    return this->next_puyos;
 }
 
 /**

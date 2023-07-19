@@ -183,6 +183,16 @@ bool PlayFieldController::isAllClear() {
 }
 
 /**
+ * @brief フィールド上のぷよの状態を取得する
+ * 
+ * @return std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> 
+ */
+std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> PlayFieldController::getStates() {
+    return this->field.getStates();
+}
+
+
+/**
  * @brief ぷよが落下可能かを判定する
  * 
  * @return bool
