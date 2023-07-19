@@ -19,6 +19,8 @@ void SelectPlayerController::selectPlayer() {
     // プレイ人数の入力フィールド画面を表示するサイズがあるか検証
     this->validation();
 
+    return;
+
     select_player_form.showForm();
     this->player_num = select_player_form.getPlayerOfNumber();
 

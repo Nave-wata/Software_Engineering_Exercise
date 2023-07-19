@@ -26,6 +26,8 @@ PlaySettings::PlaySettings()
 std::vector<playerInfo> PlaySettings::settings() {
     this->selectPlayerOfNumber();
 
+    return this->player_infos;
+
     if (this->player_num != 1) {
         this->createOrJoinRoom();
 
