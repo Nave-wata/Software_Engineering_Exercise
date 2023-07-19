@@ -42,7 +42,8 @@ class ScoreField: DynamicField {
         ScoreField(const int y, const int x);
         ~ScoreField();
         void showField();
-        void updateField();
+        void updateField() override;
+        void updateField(const int score);
         inline int getScore();
         inline void setScore(const int score);
 

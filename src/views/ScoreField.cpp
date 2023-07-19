@@ -54,6 +54,16 @@ void ScoreField::updateField() {
 }
 
 /**
+ * @brief スコアフィールドを更新する
+ * 
+ * @param score 追加するスコア
+ */
+void ScoreField::updateField(const int score) {
+    this->score += score;
+    this->updateField();
+}
+
+/**
  * @brief スコアをchar型に変換する
  * 
  * @return char*
