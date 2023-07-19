@@ -13,6 +13,7 @@
 #include "views/PlayField.hpp"
 #include "services/PuyoMoveService.hpp"
 #include "services/PuyoDeleteService.hpp"
+#include "services/PuyoGravityService.hpp"
 
 /**
  * @brief フィールド上のぷよを操作するクラス
@@ -30,6 +31,8 @@ class PlayFieldController {
 
         /** @brief ぷよを削除するサービス */
         PuyoDeleteService puyo_delete_service;
+
+        PuyoGravityService puyo_gravity_service;
 
         /** @brief 現在操作中のぷよの位置情報 */
         coordinate move_cit1;
@@ -49,6 +52,7 @@ class PlayFieldController {
         bool isNext();
         std::vector<std::vector<puyoInfo>> deletePuyos();
         void dropPuyos();
+        void gravity();
 
     private:
         bool isCantDown();

@@ -20,6 +20,7 @@
 PlayFieldController::PlayFieldController(const int y, const int x)
     : create_puyo_cit({0, 3})
     , field(y, x)
+    , puyo_gravity_service(500)
     , move_cit1(create_puyo_cit)
     , move_cit2({create_puyo_cit.y + 1, create_puyo_cit.x}) {}
 
@@ -159,6 +160,12 @@ void PlayFieldController::dropPuyos() {
             this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].setState(state);
             this->field.referencePuyo()[current_coordinate.y][current_coordinate.x].showPuyo();
         }
+    }
+}
+
+void PlayFieldController::gravity() {
+    if (this->puyo_gravity_service.gravity()) {
+        this->move(DOWN);
     }
 }
 
