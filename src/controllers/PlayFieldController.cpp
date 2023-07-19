@@ -129,14 +129,11 @@ std::vector<std::vector<puyoInfo>> PlayFieldController::deletePuyos() {
     std::vector<std::vector<puyoInfo>> deleted_puyos = this->puyo_delete_service.deletePuyos(this->field.getStates());
 
     for (auto deleted_puyo : deleted_puyos) {
-        if (deleted_puyo.size() < 3) {
-            continue;
-        }
-
         for (auto puyo_info : deleted_puyo) {
             this->field.referencePuyo()[puyo_info.cit.y][puyo_info.cit.x].setState(PuyoState::NONE);
             this->field.referencePuyo()[puyo_info.cit.y][puyo_info.cit.x].showPuyo();
         }
+        Sleep::milliSleep(500);
     }
 
     return deleted_puyos;

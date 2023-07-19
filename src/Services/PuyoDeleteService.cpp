@@ -25,7 +25,11 @@ std::vector<std::vector<puyoInfo>> PuyoDeleteService::deletePuyos(
         for (int x = 0; x < PlayField::CELL_WIDTH; x++) {
             if (puyo_states[y][x] != PuyoState::NONE) {
                 this->deleted_puyos.clear();
-                res.push_back(this->deletePuyo(puyo_states, y, x));
+                std::vector<puyoInfo> puyo_info = this->deletePuyo(puyo_states, y, x);
+
+                if (puyo_info.size() >= 4) {
+                    res.push_back(puyo_info);
+                }
             }
         }
     }
@@ -43,20 +47,21 @@ std::vector<std::vector<puyoInfo>> PuyoDeleteService::deletePuyos(
  * @return std::vector<coordinate> 探索したぷよの座標
  */
 std::vector<puyoInfo> PuyoDeleteService::deletePuyo(
-    std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyo_states,
+    std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> &puyo_states,
     const int y,
     const int x
 ) {
     PuyoState current_puyo_state = puyo_states[y][x];
+    puyoInfo puyo_info = {{y, x}, current_puyo_state};
+
+    this->deleted_puyos.push_back(puyo_info);
+    puyo_states[y][x] = PuyoState::NONE;
 
     if (
         0 <= y - 1 &&
         current_puyo_state != PuyoState::NONE && 
         current_puyo_state == puyo_states[y - 1][x]
     ) {
-        puyoInfo puyo_info = {{y, x}, current_puyo_state};
-        this->deleted_puyos.push_back(puyo_info);
-        puyo_states[y][x] = PuyoState::NONE;
         deletePuyo(puyo_states, y - 1, x);
     }
 
@@ -65,9 +70,6 @@ std::vector<puyoInfo> PuyoDeleteService::deletePuyo(
         current_puyo_state != PuyoState::NONE && 
         current_puyo_state == puyo_states[y + 1][x]
     ) {
-        puyoInfo puyo_info = {{y, x}, current_puyo_state};
-        this->deleted_puyos.push_back(puyo_info);
-        puyo_states[y][x] = PuyoState::NONE;
         deletePuyo(puyo_states, y + 1, x);
     }
 
@@ -76,9 +78,6 @@ std::vector<puyoInfo> PuyoDeleteService::deletePuyo(
         current_puyo_state != PuyoState::NONE && 
         current_puyo_state == puyo_states[y][x - 1]
     ) {
-        puyoInfo puyo_info = {{y, x}, current_puyo_state};
-        this->deleted_puyos.push_back(puyo_info);
-        puyo_states[y][x] = PuyoState::NONE;
         deletePuyo(puyo_states, y, x - 1);
     }
 
@@ -87,9 +86,6 @@ std::vector<puyoInfo> PuyoDeleteService::deletePuyo(
         current_puyo_state != PuyoState::NONE && 
         current_puyo_state == puyo_states[y][x + 1]
     ) {
-        puyoInfo puyo_info = {{y, x}, current_puyo_state};
-        this->deleted_puyos.push_back(puyo_info);
-        puyo_states[y][x] = PuyoState::NONE;
         deletePuyo(puyo_states, y, x + 1);
     }
 
