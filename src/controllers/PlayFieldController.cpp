@@ -164,10 +164,22 @@ void PlayFieldController::dropPuyos() {
     }
 }
 
+/**
+ * @brief ぷよを一定間隔で落下させる
+ */
 void PlayFieldController::gravity() {
     if (this->puyo_gravity_service.gravity()) {
         this->move(DOWN);
     }
+}
+
+/**
+ * @brief フィールド上にぷよが存在しないかを判定する
+ * 
+ * @return bool
+ */
+bool PlayFieldController::isAllClear() {
+    return this->puyo_delete_service.isAllClear(this->field.getStates());
 }
 
 /**

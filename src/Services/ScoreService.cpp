@@ -10,18 +10,28 @@
 
 #include "services/ScoreService.hpp"
 
-ScoreService::ScoreService()
-    : deleted_puyos({}), chain(0) {}
+/**
+ * @brief ScoreServiceクラスのコンストラクタ
+ * 
+ * @param all_clear_magnification 全消し後のスコア倍率
+ */
+ScoreService::ScoreService(const int all_clear_magnification)
+    : deleted_puyos({})
+    , chain(0)
+    , all_clear_magnification(all_clear_magnification) {}
 
 /**
  * @brief スコアを計算する
  * 
  * @param deleted_puyos 消えたぷよの座標
+ * @param chain 現在の連鎖数
+ * @param isAllClear 全消しされたかどうか
  * @return int スコア
  */
 int ScoreService::calculation(
     const std::vector<std::vector<puyoInfo>> deleted_puyos,
-    const int chain
+    const int chain,
+    const bool isAllClear
 ) {
     this->deleted_puyos = deleted_puyos;
     this->chain = chain;
@@ -34,6 +44,10 @@ int ScoreService::calculation(
             this->calcMoreDeletedPuyo() + 
             this->calcDeletedPuyoColor()
         );
+
+    if (isAllClear) {
+        score *= this->all_clear_magnification;
+    }
 
     return score;
 }

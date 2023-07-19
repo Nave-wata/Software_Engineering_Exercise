@@ -53,6 +53,7 @@ class PlayFieldController {
         std::vector<std::vector<puyoInfo>> deletePuyos();
         void dropPuyos();
         void gravity();
+        bool isAllClear();
 
     private:
         bool isCantDown();

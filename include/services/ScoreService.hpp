@@ -21,11 +21,15 @@ class ScoreService {
         /** @brief 連鎖数 */
         int chain;
 
+        /** @brief 全消し後のスコア倍率 */
+        const int all_clear_magnification;
+
     public:
-        ScoreService();
+        ScoreService(const int all_clear_magnification);
         int calculation(
             const std::vector<std::vector<puyoInfo>> deleted_puyos,
-            const int chain
+            const int chain,
+            const bool isAllClear
         );
 
     private:

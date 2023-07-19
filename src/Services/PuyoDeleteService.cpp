@@ -91,3 +91,22 @@ std::vector<puyoInfo> PuyoDeleteService::deletePuyo(
 
     return this->deleted_puyos;
 }
+
+/**
+ * @brief フィールド上にぷよが存在しないかどうかを判定する
+ * 
+ * @param puyo_states すべてのぷよの状態
+ * @return bool
+ */
+bool PuyoDeleteService::isAllClear(
+    std::array<std::array<PuyoState, PlayField::CELL_WIDTH>, PlayField::CELL_HEIGHT> puyo_states
+) {
+    for (int y = 0; y < PlayField::CELL_HEIGHT; y++) {
+        for (int x = 0; x < PlayField::CELL_WIDTH; x++) {
+            if (puyo_states[y][x] != PuyoState::NONE) {
+                return false;
+            }
+        }
+    }
+    return true;
+}

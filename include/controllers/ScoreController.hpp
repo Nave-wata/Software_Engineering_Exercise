@@ -23,7 +23,11 @@ class ScoreController {
         ScoreService service;
 
     public:
-        ScoreController(const int y, const int x);
+        ScoreController(const int y, const int x, const int all_clear_magnification);
         void show();
-        int update(std::vector<std::vector<puyoInfo>> deleted_puyos, const int chan);
+        int update(
+            std::vector<std::vector<puyoInfo>> deleted_puyos,
+            const int chan,
+            const bool isAllClear=false
+        );
 };

@@ -32,4 +32,7 @@ class PuyoDeleteService {
             const int y,
             const int x
         );
+        bool isAllClear(
+            std::array<std::array<PuyoState, PlayField::CELL_WIDTH>,PlayField::CELL_HEIGHT> puyo_states
+        );
 };

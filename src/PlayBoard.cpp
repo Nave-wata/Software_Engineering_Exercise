@@ -23,7 +23,7 @@ PlayBoard::PlayBoard(const int y, const int x, const Settings settings, const bo
     : chain_controller(y, x)
     , next_puyo_controller(y, x)
     , play_field_controller(y, x, settings.gravity)
-    , score_controller(y, x)
+    , score_controller(y, x, settings.all_clear_magnification)
     , settings(settings)
     , single(single) {}
 
@@ -42,6 +42,7 @@ void PlayBoard::show() {
     play_field_controller.create(puyos);
 
     int c = '\0';
+    bool isAllClear = false;
     timeout(0);
 
     while ((c = getch()) != 'q') {
@@ -90,13 +91,17 @@ void PlayBoard::show() {
                 if (deleted_puyos.size() == 0) break;
 
                 chain++;
-                score_controller.update(deleted_puyos, chain);
+                score_controller.update(deleted_puyos, chain, isAllClear);
 
                 Sleep::milliSleep(100);
 
                 play_field_controller.dropPuyos();
 
                 Sleep::milliSleep(100);
+            }
+
+            if (chain > 0) {
+                isAllClear = play_field_controller.isAllClear();
             }
 
             std::array<PuyoState, 2> puyos = next_puyo_controller.update();
