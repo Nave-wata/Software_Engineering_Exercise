@@ -19,7 +19,7 @@
  * 各種設定の初期値を設定する
  */
 ReadSettings::ReadSettings() :
-    ifs(std::ifstream(this->file_path)), _settings({
+    ifs(std::ifstream(this->file_path)), settings({
         KEY_UP,     // 上キー
         KEY_DOWN,   // 下キー
         KEY_LEFT,   // 左キー
@@ -50,10 +50,10 @@ ReadSettings::~ReadSettings() {
  * 
  * @return settings 設定
  */
-settings ReadSettings::read() {
+Settings ReadSettings::read() {
     // ファイル読み込みに失敗したらデフォルトの設定を返す
     if (!this->ifs) {
-        return this->_settings;
+        return this->settings;
     }
 
     // ファイル読み込み
@@ -66,45 +66,45 @@ settings ReadSettings::read() {
         // 項目名と一致し，問題のない値であれば設定を更新する
         try {
             if (itemKey == this->keyUp && itemValue.length() == 1) {
-                this->_settings.up = static_cast<int>(*itemValue.c_str());
+                this->settings.key_up = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyDown && itemValue.length() == 1) {
-                this->_settings.down = static_cast<int>(*itemValue.c_str());
+                this->settings.key_down = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyLeft && itemValue.length() == 1) {
-                this->_settings.left = static_cast<int>(*itemValue.c_str());
+                this->settings.key_left = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyRight && itemValue.length() == 1) {
-                this->_settings.right = static_cast<int>(*itemValue.c_str());
+                this->settings.key_right = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyLeftRotate && itemValue.length() == 1) {
-                this->_settings.left_rotate = static_cast<int>(*itemValue.c_str());
+                this->settings.key_left_rotate = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyRightRotate && itemValue.length() == 1) {
-                this->_settings.right_rotate = static_cast<int>(*itemValue.c_str());
+                this->settings.key_right_rotate = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyPause && itemValue.length() == 1) {
-                this->_settings.pause = static_cast<int>(*itemValue.c_str());
+                this->settings.key_pause = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->keyQuit && itemValue.length() == 1) {
-                this->_settings.quit = static_cast<int>(*itemValue.c_str());
+                this->settings.key_quit = static_cast<int>(*itemValue.c_str());
             }
             else if (itemKey == this->gravity) {
-                this->_settings.gravity = std::stoi(itemValue);
+                this->settings.gravity = std::stoi(itemValue);
             }
             else if (itemKey == this->nuisancePuyoMaxRow) {
-                this->_settings.nuisance_puyo_max_row = std::stoi(itemValue);
+                this->settings.nuisance_puyo_max_row = std::stoi(itemValue);
             }
             else if (itemKey == this->allClearMagnification) {
-                this->_settings.all_clear_magnification = std::stod(itemValue);
+                this->settings.all_clear_magnification = std::stod(itemValue);
             }
             else if (itemKey == this->nuisancePuyoRate) {
-                this->_settings.nuisance_puyo_rate = std::stoi(itemValue);
+                this->settings.nuisance_puyo_rate = std::stoi(itemValue);
             }
         } catch (std::exception &e) {
             continue;
         }
     }
 
-    return this->_settings;
+    return this->settings;
 }

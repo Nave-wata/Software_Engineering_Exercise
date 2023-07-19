@@ -18,28 +18,28 @@
  */
 typedef struct {
     /** @brief 上キー */
-    int up;
+    int key_up;
 
     /** @brief 下キー */
-    int down;
+    int key_down;
 
     /** @brief 左キー */
-    int left;
+    int key_left;
 
     /** @brief 右キー */
-    int right;
+    int key_right;
 
     /** @brief 左回転キー */
-    int left_rotate;
+    int key_left_rotate;
 
     /** @brief 右回転キー */
-    int right_rotate;
+    int key_right_rotate;
 
     /** @brief 一時停止キー */
-    int pause;
+    int key_pause;
 
     /** @brief 終了キー */
-    int quit;
+    int key_quit;
 
     /** @brief 落下速度 */
     int gravity;
@@ -52,7 +52,7 @@ typedef struct {
 
     /** @brief おじゃまぷよレート */
     int nuisance_puyo_rate;
-} settings;
+} Settings;
 
 /**
  * @brief 設定ファイルを読み込むクラス
@@ -63,7 +63,7 @@ class ReadSettings {
         std::ifstream ifs;
 
         /** @brief 各種設定 */
-        settings _settings;
+        Settings settings;
 
         /** @brief ファイルパス */
         const std::string file_path = "./setting.txt";
@@ -107,5 +107,5 @@ class ReadSettings {
     public:
         ReadSettings();
         ~ReadSettings();
-        settings read();
+        Settings read();
 };

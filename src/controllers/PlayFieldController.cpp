@@ -16,11 +16,12 @@
  * 
  * @param y フィールドの高さ
  * @param x フィールドの幅
+ * @param fall ぷよが落ちる速さ
  */
-PlayFieldController::PlayFieldController(const int y, const int x)
+PlayFieldController::PlayFieldController(const int y, const int x, const int fall)
     : create_puyo_cit({0, 3})
     , field(y, x)
-    , puyo_gravity_service(500)
+    , puyo_gravity_service(fall)
     , move_cit1(create_puyo_cit)
     , move_cit2({create_puyo_cit.y + 1, create_puyo_cit.x}) {}
 

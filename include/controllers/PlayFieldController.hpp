@@ -41,7 +41,7 @@ class PlayFieldController {
         coordinate move_cit2;
 
     public:
-        PlayFieldController(const int y, const int x);
+        PlayFieldController(const int y, const int x, const int fall);
         void show();
         void create(std::array<PuyoState, 2> puyos);
         void move(const int direction);
