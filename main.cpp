@@ -43,16 +43,7 @@ int main() {
     Settings settings = read_settings.read();
 
     while (true) {
-        PlaySettings play_settings;
-        std::vector<playerInfo> player_info = play_settings.settings();
-        int player_num = player_info.size();
-
-        if (player_num == 0) player_num = 1;
-
-        clear();
-        refresh();
-
-        Playing playing(settings, player_num);
+        Playing playing(settings, 1);
         playing.initScreen();
         
         clear();
