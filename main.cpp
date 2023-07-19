@@ -54,6 +54,8 @@ int main() {
 
         Playing playing(settings, 1);
         playing.initScreen();
+
+        sleep(2);
         
         clear();
         refresh();
