@@ -45,7 +45,8 @@ void PlayBoard::show() {
     bool isAllClear = false;
     timeout(0);
 
-    while ((c = getch()) != 'q') {
+    while (true) {
+        c = getch();
         play_field_controller.gravity();
 
         if (c == this->settings.key_left_rotate) {
@@ -70,6 +71,8 @@ void PlayBoard::show() {
             timeout(-1);
             getch();
             timeout(0);
+        } else if (c == this->settings.key_quit) {
+            std::exit(0);
         }
 
         if (play_field_controller.isNext()) {

@@ -14,9 +14,10 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "controllers/CreateRoomController.hpp"
-#include "controllers/JoinRoomController.hpp"
-#include <iostream>
+#include "ReadSettings.hpp"
+#include "PlaySettings.hpp"
+#include "Playing.hpp"
+
 #include <stdexcept>
 
 void mainInit() {
@@ -34,37 +35,28 @@ void mainDestroy() {
     endwin();
 }
 
-int main(int argc, char* argv[]) {
-    char c = argv[0][0];
-    c++;
+int main() {
+    mainInit();
+    atexit(mainDestroy);
 
-    if (argc == 1) {
-        mainInit();
+    ReadSettings read_settings;
+    Settings settings = read_settings.read();
 
-        CreateRoomController createRoomController;
-        std::string room_name = createRoomController.inputRoomName();
-        std::vector<playerInfo> player_infos = createRoomController.createRoom(room_name, 1);
+    while (true) {
+        PlaySettings play_settings;
+        std::vector<playerInfo> player_info = play_settings.settings();
+        int player_num = player_info.size();
 
-        mainDestroy();
+        if (player_num == 0) player_num = 1;
 
-        for (auto player_info : player_infos) {
-            std::cout << player_info.room_name << std::endl;
-            std::cout << player_info.ip << std::endl;
-        }
+        clear();
+        refresh();
 
-    } else {
-        mainInit();
-
-        JoinRoomController joinRoomController;
-        RoomInfo room_info = joinRoomController.show();
-        std::vector<playerInfo> player_infos = joinRoomController.joinRoom(room_info, 1);
-
-        mainDestroy();
-
-        for (auto player_info : player_infos) {
-            std::cout << player_info.room_name << std::endl;
-            std::cout << player_info.ip << std::endl;
-        }
+        Playing playing(settings, player_num);
+        playing.initScreen();
+        
+        clear();
+        refresh();
     }
 
     return 0;
